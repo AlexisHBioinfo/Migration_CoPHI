@@ -54,11 +54,31 @@ class Matrix_view(){
 
   }
 
-  
+  inverser_axe(axis){
 
+  }
+
+  taille_groupe(axis){
+
+    for (let i=0; i<len(Matrix_view[axis]); i++){
+
+    }
+  }
 
 }
 
+class Axes(){
+  Liste_0=[];
+  Liste_1=[];
+  Liste_2=[];
+}
 
+class line(){
+  constructor(dir){
+    // direction = up, middle ou down
+    direction=dir;
+
+  }
+}
 
 // Groupes sur les axes changent-ils ?
