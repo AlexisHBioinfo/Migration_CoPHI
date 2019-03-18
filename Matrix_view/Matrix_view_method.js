@@ -54,5 +54,11 @@ class Matrix_view(){
 
   }
 
+  
+
 
 }
+
+
+
+// Groupes sur les axes changent-ils ?
