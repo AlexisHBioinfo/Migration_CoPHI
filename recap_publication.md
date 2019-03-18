@@ -45,6 +45,8 @@ Cette approche demande plusieurs éléments :
 
 ## **Related Work**
 
+### Surmonter l'encombrement dans les coordonnées parallèles
+
 Deux techniques de "*horizontal scaling*"
 
 Méthodes basées sur la densité ou utilisation de courbes au lieu de lignes. => Ne scalent pas car décrivent chaque item.
@@ -56,4 +58,14 @@ Cette méthode est limitée car par exemple le filtre prérequiert des connaissa
 
 * Méthode de clustering des données.
 
-Identification de groupe d'objets par l'utilisation de code couleur, opacité ou de groupement.
+Identification de groupe d'objets par l'utilisation visuelle de code couleur, opacité ou de groupement. (paquets incurvés? )
+
+### Système de mise à l'échelle visuelle
+
+En gros ça parle des solutions apportées par l'évolution des performances des CPU.
+
+## **System Overview**
+
+Le système est séparé en 2 parties :
+
+A revoir
