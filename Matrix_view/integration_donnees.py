@@ -31,10 +31,9 @@ Matrix_view={}
 for i in range(len(Reaction_list)) :
     Matrix_view[i]={}
     Matrix_view[i][Reaction_list[i]]=[]
-for i in range(len(matrice)):
-    Matrix_view[i][Reaction_list[i]].append(matrice[cle][0])
-    Matrix_view[i][Reaction_list[i]].append(matrice[cle][1])
-    Matrix_view[i][Reaction_list[i]].append(matrice[cle][2])
+    Matrix_view[i][Reaction_list[i]].append(matrice[Reaction_list[i]][0])
+    Matrix_view[i][Reaction_list[i]].append(matrice[Reaction_list[i]][1])
+    Matrix_view[i][Reaction_list[i]].append(matrice[Reaction_list[i]][2])
 
 for cle in Matrix_view.keys():
     print (cle , Matrix_view[cle])
