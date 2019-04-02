@@ -1,0 +1,19 @@
+.sidenav{
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 250px;
+  position: fixed;
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #EAE7DC;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+.wrapper{
+  left : 251px;
+  width: 1662px;
+  height: 100%;
+  margin-right: auto;
+  position : absolute;
+}
