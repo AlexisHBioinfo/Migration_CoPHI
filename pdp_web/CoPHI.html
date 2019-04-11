@@ -5,9 +5,76 @@
   <meta charset="utf-8">
   <meta name="description" content="Metabolic flux visualization using parallel coordinates">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://d3js.org/d3.v3.js"></script>
+  <!-- <script src="https://d3js.org/d3.v4.js"></script> -->
 </head>
+<style>
+@import url(http://www.jasondavies.com/parallel-sets/d3.parsets.css);
 
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+  width: 960px;
+  margin: 1em auto;
+  position: relative;
+}
+h1, h2, .dimension text {
+  text-align: center;
+  font-family: "PT Sans", Helvetica;
+  font-weight: 300;
+}
+h1 {
+  font-size: 4em;
+  margin: .5em 0 0 0;
+}
+h2 {
+  font-size: 2em;
+  margin: 1em 0 0.5em;
+  border-bottom: solid #ccc 1px;
+}
+p.meta, p.footer {
+  font-size: 13px;
+  color: #333;
+}
+p.meta {
+  text-align: center;
+}
+
+text.icicle { pointer-events: none; }
+
+.options { font-size: 12px; text-align: center; padding: 5px 0; }
+.curves { float: left; }
+.source { float: right; }
+pre, code { font-family: "Menlo", monospace; }
+
+.html .value,
+.javascript .string,
+.javascript .regexp {
+  color: #756bb1;
+}
+
+.html .tag,
+.css .tag,
+.javascript .keyword {
+  color: #3182bd;
+}
+
+.comment {
+  color: #636363;
+}
+
+.html .doctype,
+.javascript .number {
+  color: #31a354;
+}
+
+.html .attribute,
+.css .attribute,
+.javascript .class,
+.javascript .special {
+  color: #e6550d;
+}
+</style>
 <body>
   <div class="sidenav">
     <h1>Import data</h1>
@@ -17,9 +84,9 @@
     <button id="submit" type="submit">Submit</button>
   </div>
   <div class="wrapper">
-    <script src="http://www.jasondavies.com/parallel-sets/d3.parsets.js"></script>
+    <!-- <script src="http://www.jasondavies.com/parallel-sets/d3.parsets.js"></script> -->
     <script src="http://www.jasondavies.com/parallel-sets/highlight.min.js"></script>
-    <script type="text/javascript" src="view.js"></script>
+    <script type="text/javascript" src="view3.js"></script>
     <!--plusieurs script dispo : view, view2 et view3... plus ou moins complets et fonctionnel... cf commentaire en header -->
   </div>
 </body>
