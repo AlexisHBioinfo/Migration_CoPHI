@@ -675,6 +675,8 @@
   
   /////////////////////////////////////////////////////FIN OBJET PARSETS ///////////////////////////////////////////////////////////////
   
+
+  
   var chart = d3.parsets()
       // .spacing(100)
       .dimensions([""])
@@ -843,13 +845,47 @@
       return lo > 1 ? t.substr(0, lo - 2) + "…" : "";
     };
   }
+
+function guessDelimiters (text, possibleDelimiters) {
+  return possibleDelimiters.filter(weedOut);
+
+  function weedOut (delimiter) {
+      var cache = -1;
+      return text.split('\n').every(checkLength);
+
+      function checkLength (line) {
+          if (!line) {
+              return true;
+          }
+
+          var length = line.split(delimiter).length;
+          if (cache < 0) {
+              cache = length;
+          }
+          return cache === length && length > 1;
+      }
+  }
+}
   
   d3.select("#submit").on("click", function() {
     let fich=document.getElementById("file");
     var file = fich.files[0],
         reader = new FileReader;
     reader.onloadend = function() {
-      var csv = d3.csv.parse(reader.result);
+
+      let lignes=reader.result.split('\n');
+      let separateur=guessDelimiters(lignes[1],[" ",",","\t",";"]);
+
+      if (separateur.length>0){
+          separateur=separateur.pop();
+        
+      }
+      else{
+        separateur=separateur[0];
+      }
+
+      var del=d3.dsv(separateur,"text/plain");
+      var csv=del.parse(reader.result);
       vis.datum(csv).call(chart
           .value(csv[0].hasOwnProperty("Number") ? function(d) { return +d.Number; } : 1)
           .dimensions(function(d) { return d3.keys(d[0]).filter(function(d) { return d !== "Number"; }); }));
