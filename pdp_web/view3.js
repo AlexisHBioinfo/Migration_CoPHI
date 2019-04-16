@@ -6,7 +6,7 @@
 
 ///////////////////////////////////////////////// OBJET PARSETS //////////////////////////////////////////////////////////////////
 
-// Parallel Sets by Jason Davies, http://www.jasondavies.com/ 
+// Parallel Sets by Jason Davies, http://www.jasondavies.com/
 // Functionality based on http://eagereyes.org/parallel-sets
 (function() {
   d3.parsets = function() {
@@ -223,7 +223,7 @@
               .data(nodes, function(d) { return d.path; });
           mouse.enter().append("path")
               .on("click.parsets", function(d) {
-                ribbon.classed("active", false);
+                ribbon.classed("inactive", false);
                 if (dragging) return;
                 highlight(d = d.node, true);
                 showTooltip(tooltip_.call(this, d));
@@ -677,8 +677,8 @@
 
 var chart = d3.parsets()
     .dimensions([""])
-    .width(1500)
-    .height(3000);
+    .width(500)
+    .height(1000);
 
 var vis = d3.select(".wrapper").append("svg")
     .attr("width", chart.width())
