@@ -16,10 +16,10 @@
         tooltip_ = defaultTooltip,
         categoryTooltip = defaultCategoryTooltip,
         value_,
-        spacing = 20,
+        spacing = 200, //// espace entre les aggrégats
         width,
         height,
-        tension = 1,
+        tension = 0.7,  //// Courbure (1=droite, <1 courbé, >1 ne pas faire)
         tension0,
         duration = 500;
 
@@ -111,7 +111,7 @@
 
           var dEnter = dimension.enter().append("g")
               .attr("class", "dimension")
-              .attr("transform", function(d) { return "translate(0," + d.y + ")"; })
+              // .attr("transform", function(d) { return "translate(0," + d.y-30 + ")"; })  /////////////// positionne le nom des axes ///////////////
               .on("click.parsets", cancelEvent);
           dimension.each(function(d) {
                 d.y0 = d.y;
@@ -123,20 +123,21 @@
               .attr("height", 45);
           var textEnter = dEnter.append("text")
               .attr("class", "dimension")
-              .attr("transform", "translate(0,-25)");
+              .attr("transform", "translate(0,-25)")
+              .attr("transform", "rotate(90, 0, 0)");
           textEnter.append("tspan")
               .attr("class", "name")
               .text(dimensionFormatName);
-          textEnter.append("tspan")
-              .attr("class", "sort alpha")
-              .attr("dx", "2em")
-              .text("alpha »")
-              .on("click.parsets", cancelEvent);
-          textEnter.append("tspan")
-              .attr("class", "sort size")
-              .attr("dx", "2em")
-              .text("size »")
-              .on("click.parsets", cancelEvent);
+          // textEnter.append("tspan")    ////////////////////////////////////////////truc de tri inutile pour les données que l'on traite //////////////////////
+          //     .attr("class", "sort alpha")
+          //     .attr("dx", "2em")
+          //     .text("alpha »")
+          //     .on("click.parsets", cancelEvent);
+          // textEnter.append("tspan")
+          //     .attr("class", "sort size")
+          //     .attr("dx", "2em")
+          //     .text("size »")
+          //     .on("click.parsets", cancelEvent);
           dimension
               .call(d3.behavior.drag()
                 .origin(identity)
@@ -181,10 +182,10 @@
                       .attr("transform", "translate(0," + d.y + ")")
                       .tween("ribbon", ribbonTweenY);
                 }));
-          dimension.select("text").select("tspan.sort.alpha")
-              .on("click.parsets", sortBy("alpha", function(a, b) { return a.name < b.name ? 1 : -1; }, dimension));
-          dimension.select("text").select("tspan.sort.size")
-              .on("click.parsets", sortBy("size", function(a, b) { return a.count - b.count; }, dimension));
+          // dimension.select("text").select("tspan.sort.alpha")
+          //     .on("click.parsets", sortBy("alpha", function(a, b) { return a.name < b.name ? 1 : -1; }, dimension));
+          // dimension.select("text").select("tspan.sort.size")
+          //     .on("click.parsets", sortBy("size", function(a, b) { return a.count - b.count; }, dimension));
           dimension.transition().duration(duration)
               .attr("transform", function(d) { return "translate(0," + d.y + ")"; })
               .tween("ribbon", ribbonTweenY);
@@ -296,11 +297,11 @@
               .on("click.parsets", function(d) {
                 ribbon.classed("active", false);
                 if (dragging) return;
-                d.nodes.forEach(function(d) { highlight(d); });
+                d.nodes.forEach(function(d) { highlight(d,true); }); /////////////////////////// ajout du paramètre true pour prendre en compte les ancêtres /////////////////
                 showTooltip(categoryTooltip.call(this, d));
                 d3.event.stopPropagation();
               })
-              .on("mouseout.parsets", unhighlight)
+              .on("clickout.parsets", unhighlight)/////////////////////////////////////////////// Changement click ////////////
               .on("mousedown.parsets", cancelEvent)
               .call(d3.behavior.drag()
                 .origin(identity)
@@ -352,7 +353,7 @@
               .attr("y", -20)
               .attr("height", 20);
           categoryEnter.append("line")
-              .style("stroke-width", 2);
+              .style("stroke-width", 10); ////////////////////////////////// Pseudo carré d'aggrégat ////////
           categoryEnter.append("text")
               .attr("dy", "-.3em");
           category.select("rect")
@@ -675,16 +676,14 @@
 /////////////////////////////////////////////////////FIN OBJET PARSETS ///////////////////////////////////////////////////////////////
 
 var chart = d3.parsets()
-    // .spacing(100)
     .dimensions([""])
-    .width(3000)
+    .width(1500)
     .height(3000);
-
-console.log(chart.width());
 
 var vis = d3.select(".wrapper").append("svg")
     .attr("width", chart.width())
-    .attr("height", chart.height());
+    .attr("height", chart.height())
+    .attr('transform', 'rotate(270 0 0)');
 
 var partition = d3.layout.partition()
     .sort(null)
@@ -704,7 +703,6 @@ function curves() {
 }
 
 d3.csv("", function(csv) {
-  console.log(csv);
   vis.datum(csv).call(chart);
 
   window.icicle = function() {
@@ -848,11 +846,42 @@ function truncateText(text, width) {
   };
 }
 
+function guessDelimiters (text, possibleDelimiters) {
+  return possibleDelimiters.filter(weedOut);
+
+  function weedOut (delimiter) {
+      var cache = -1;
+      return text.split('\n').every(checkLength);
+
+      function checkLength (line) {
+          if (!line) {
+              return true;
+          }
+
+          var length = line.split(delimiter).length;
+          if (cache < 0) {
+              cache = length;
+          }
+          return cache === length && length > 1;
+      }
+  }
+}
+
+
 d3.select("#file").on("change", function() {
   var file = this.files[0],
       reader = new FileReader;
   reader.onloadend = function() {
-    var csv = d3.csv.parse(reader.result);
+    let lignes=reader.result.split('\n');
+    let separateur=guessDelimiters(lignes[1],[" ",",","\t",";"]);
+    if (separateur.length>0){
+        separateur=separateur.pop();
+    }
+    else{
+      separateur=separateur[0];
+    }
+    var del=d3.dsv(separateur,"text/plain");
+    var csv=del.parse(reader.result);
     vis.datum(csv).call(chart
         .value(csv[0].hasOwnProperty("Number") ? function(d) { return +d.Number; } : 1)
         .dimensions(function(d) { return d3.keys(d[0]).filter(function(d) { return d !== "Number"; }).sort(); }));

@@ -11,9 +11,10 @@
 }
 
 .wrapper{
-  left : 251px;
+  left : 60%;
   width: 1662px;
   height: 100%;
   margin-right: auto;
   position : absolute;
+  /* transform: rotate(90); */
 }
