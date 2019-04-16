@@ -6,7 +6,7 @@
 
 ///////////////////////////////////////////////// OBJET PARSETS //////////////////////////////////////////////////////////////////
 
-// Parallel Sets by Jason Davies, http://www.jasondavies.com/
+// Parallel Sets by Jason Davies, http://www.jasondavies.com/ 
 // Functionality based on http://eagereyes.org/parallel-sets
 (function() {
   d3.parsets = function() {
