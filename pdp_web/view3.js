@@ -34,8 +34,8 @@
             nodes,
             total,
             ribbon;
-
-        d3.select(window).on("click.parsets." + ++parsetsId, unhighlight);
+        ///////////////////////// désélectionne l'élément précédemment sélectionné ////////////
+        d3.select(window).on("mousedown.parsets." + ++parsetsId, unhighlight);
 
         if (tension0 == null) tension0 = tension;
         g.selectAll(".ribbon, .ribbon-mouse")
@@ -123,7 +123,7 @@
               .attr("height", 45);
           var textEnter = dEnter.append("text")
               .attr("class", "dimension")
-              .attr("transform", "translate(0,-25)")
+              .attr("transform", "translate(0,0)")
               .attr("transform", "rotate(90, 0, 0)");
           textEnter.append("tspan")
               .attr("class", "name")
@@ -681,9 +681,9 @@ var chart = d3.parsets()
     .height(1000);
 
 var vis = d3.select(".wrapper").append("svg")
+    .attr('transform', 'rotate(270 0 -200)')
     .attr("width", chart.width())
-    .attr("height", chart.height())
-    .attr('transform', 'rotate(270 0 0)');
+    .attr("height", chart.height()+200);
 
 var partition = d3.layout.partition()
     .sort(null)
@@ -702,7 +702,7 @@ function curves() {
   t.call(chart.tension(this.checked ? .5 : 1));
 }
 
-d3.csv("", function(csv) {
+d3.csv("PEC0_20152.csv", function(csv) {
   vis.datum(csv).call(chart);
 
   window.icicle = function() {
