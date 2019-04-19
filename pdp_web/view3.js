@@ -725,8 +725,9 @@ function guessDelimiters (text, possibleDelimiters) {
 }
 
 
-d3.select("#file").on("change", function() {
-  var file = this.files[0],
+d3.select("#submit").on("click", function() {
+  let fich = document.getElementById("file");
+  var file = fich.files[0],
       reader = new FileReader;
   reader.onloadend = function() {
     let lignes=reader.result.split('\n');
