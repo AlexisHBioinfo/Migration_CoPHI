@@ -1,9 +1,3 @@
-//Nécessite D3JS V3 :  <script src="https://d3js.org/d3.v3.js"></script>
-//Template utilisé : https://translate.google.com/translate?hl=fr&sl=auto&tl=fr&u=http%3A%2F%2Foer.uoc.edu%2FVIS%2FD3%2FCA%2Fparallel-sets%2Findex.html
-// + code : http://oer.uoc.edu/VIS/D3/CA/parallel-sets/parallel-sets_base.js
-// data : sepale/petale etc.
-//problème : le cadre reste noir...
-
 ///////////////////////////////////////////////// OBJET PARSETS //////////////////////////////////////////////////////////////////
 
 // Parallel Sets by Jason Davies, http://www.jasondavies.com/
@@ -501,6 +495,23 @@
         });
       });
 
+      function getallComb(dimensions){
+        let comb=[];
+        for (let i=0; i<dimensions.length - 1; i++){
+          let source=dimensions[i].categories;
+          let target=dimensions[i+1].categories;
+          for (let j=0; j<source.length; j++){
+            var temp=[];
+            for (let k=0; k<target.length; k++){
+              temp.push([source[j].name, target[k].name]);
+            }
+            comb.push({dimension: dimensions[i+1].name, comb: temp});
+          }
+
+        }
+        return comb;
+      }
+
       var dim = dimensions[0];
       dim.categories.forEach(function(c) {
         var k = c.name;
@@ -512,7 +523,7 @@
       function recurse(p, d, depth, major) {
         var node = d.node,
             dimension = dimensions[depth];
-        dimension.categories.forEach(function(c) {
+          dimension.categories.forEach(function(c) {
           var k = c.name;
           if (!node.children.hasOwnProperty(k)) return;
           var child = node.children[k];
@@ -534,9 +545,46 @@
           if (depth + 1 < dimensions.length) recurse(c, child, depth + 1, major);
         });
       }
-      return nodes;
-    }
 
+      var nouv_noeuds= recomputeNodes(nodes,getallComb(dimensions),dimensions.map(dimensionName));
+      return nodes;
+
+    }
+    function recomputeNodes(nodes,combi,dimension_names){
+      var new_array=[];
+
+      dimension_names.shift();
+      dimension_names.forEach(function(dim){
+        let list_nod=nodes.filter(function(nod){return nod.dimension==dim});
+        let list_comb=combi.filter(function(c){return c.dimension==dim});
+        list_comb.forEach(function(comb){ // Get one node at the end
+          comb.comb.forEach(function(c){
+            var new_nod={};
+            new_nod.count=0;
+
+            list_nod.forEach(function(nod){
+              let path=nod.path.split('\u0000');
+
+              if (path[path.length - 2]==c[0] && path[path.length - 1]==c[1]){
+                new_nod.count+=nod.count;
+                new_nod.dimension=dim;
+                new_nod.name=nod.name;
+                new_nod.path= path[path.length - 2]+"\u0000"+path[path.length - 1];
+
+              }
+              new_nod.major=nod.major;
+              new_nod.source=nod.source;
+              new_nod.target=nod.target;
+            });
+
+          new_array.push(new_nod);
+          });
+
+        });
+
+      })
+      return new_array.filter(function(node){return node.count>0;});
+    }
     // Dynamic path string for transitions.
     function ribbonPath(d) {
       var s = d.source,
