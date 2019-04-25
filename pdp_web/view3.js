@@ -852,7 +852,7 @@ d3.select("#submit").on("click", function() {
       j++;
     }
     function tabulate(data, columns) {
-      var table = d3.select('.resultsTable').append('table')
+      var table = d3.select('.content').append('table')
       var thead = table.append('thead')
       var	tbody = table.append('tbody');
 
@@ -879,7 +879,18 @@ d3.select("#submit").on("click", function() {
         .enter()
         .append('td')
           .text(function (d) { return d.value; });
-
+      var coll=document.getElementsByClassName("collapsible");
+      for (let i=0; i<coll.length;i++){
+        coll[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.display === "block") {
+            content.style.display = "none";
+          } else {
+            content.style.display = "block";
+          }
+        });
+      }
       // return table;
     }
     var parsed=del.parseRows(reader.result);
