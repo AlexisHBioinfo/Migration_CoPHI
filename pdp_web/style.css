@@ -109,10 +109,8 @@ svg{
 }
 
 .collapsible {
-  position: relative;
-  left: 250px;
-  bottom: 0;
-
+  position: absolute;
+  left:0px;
   background-color: #777;
   color: white;
   cursor: pointer;
@@ -130,7 +128,7 @@ svg{
 }
 
 .content {
-  position: relative;
+  position: absolute;
   padding: 0 18px;
   display: none;
   overflow: hidden;

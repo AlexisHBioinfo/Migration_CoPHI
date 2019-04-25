@@ -887,7 +887,8 @@ d3.select("#submit").on("click", function() {
           if (content.style.display === "block") {
             content.style.display = "none";
           } else {
-            content.style.display = "block";
+            content.style.display = "block",
+            content.style.top=wi+150+"px";
           }
         });
       }
@@ -920,6 +921,8 @@ d3.select("#submit").on("click", function() {
       }
       return [x,y];
     }
+    var coll=d3.select(".collapsible");
+    coll.style("top", wi+100+"px");
     var wrap=d3.select(".wrapper");
     let coord=coordonneeRotation(wi,he);
     let xrotation=coord[0];
@@ -935,7 +938,6 @@ d3.select("#submit").on("click", function() {
           var table=d3.select('.resultsTable');
           table.style("top", 150+"px");
         };
-        // if (he);
     }
   reader.readAsText(file);
   // console.log(reader);
