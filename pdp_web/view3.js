@@ -76,9 +76,7 @@
                   }
                   node.children[d.name] = d;
                 });
-            // console.log(data);
             tree = buildTree(tree, data, dimensions.map(dimensionName), value_);
-            // console.log(tree);
             cache = dimensions.map(function(d) {
               var t = {};
               d.categories.forEach(function(c) {
@@ -124,11 +122,11 @@
             textEnter.append("tspan")
                 .attr("class", "name")
                 .text(dimensionFormatName);
-            // textEnter.append("tspan")    ////////////////////////////////////////////truc de tri inutile pour les données que l'on traite //////////////////////
-            //     .attr("class", "sort size")
-            //     .attr("dx", "2em")
-            //     .text("size »")
-            //     .on("click.parsets", cancelEvent);
+            textEnter.append("tspan")
+                .attr("class", "sort size")
+                .attr("dx-2", "2em")
+                .text("invert »")
+                .on("click.parsets", cancelEvent);
             // textEnter.append("tspan")
             //     .attr("class", "sort alpha")
             //     .attr("visibility","hidden")
@@ -181,8 +179,8 @@
                   }));
             // dimension.select("text").select("tspan.sort.alpha")
             //     .on("click.parsets", sortBy("alpha", function(a, b) { return a.name < b.name ? 1 : -1; }, dimension));
-            // dimension.select("text").select("tspan.sort.size")
-            //     .on("click.parsets", sortBy("size", function(a, b) { return a.count - b.count; }, dimension));
+            dimension.select("text").select("tspan.sort.size")
+                .on("click.parsets", sortBy("size", function(a, b) { return b.count - a.count; }, dimension));
             dimension.transition().duration(duration)
                 .attr("transform", function(d) { return "translate(0," + d.y + ")"; })
                 .tween("ribbon", ribbonTweenY);
@@ -195,7 +193,7 @@
           function sortBy(type, f, dimension) {
             return function(d) {
               var direction = this.__direction = -(this.__direction || 1);
-              d3.select(this).text(direction > 0 ? type + " »" : "« " + type);
+              d3.select(this).text(direction > 0 ? "\ninvert »" : "\n« invert");
               d.categories.sort(function() { return direction * f.apply(this, arguments); });
               nodes = layout(tree, dimensions, ordinal);
               updateCategories(dimension);
@@ -214,7 +212,7 @@
                 })
                 .attr("class", function(d) { return "category-" + d.major; })
                 .attr("d", ribbonPath);
-            ribbon.sort(function(a, b) { return b.count - a.count; });
+            ribbon.sort(function(a, b) { return parseInt(a.name) > parseInt(b.name); });
             ribbon.exit().remove();
             var mouse = g.select(".ribbon-mouse").selectAll("path")
                 .data(nodes, function(d) { return d.path; });
@@ -261,14 +259,64 @@
 
           // Highlight a node and its descendants, and optionally its ancestors.
           function highlight(d, ancestors) {
+            function getParents(d,dimensionNames){
+              let ind=dimensionNames.indexOf(d.dimension);
+              dimensionNames=dimensionNames.slice(0,ind);
+              let path=d.path.split('\u0000');
+              pos_nod=nodes.filter(function(n){return n.dimension==dimensionNames[dimensionNames.length-1]});
+              let par=[];
+              pos_nod.forEach(function(n){
+                if (n.name==path[0]){
+                  par.push(n);
+                }
+              });
+
+              d.parent=par;
+              if (par.length==0) return;
+              if (par.length>0) {
+                d.parent.forEach(function(de){
+                  getParents(de,dimensionNames)
+                });
+              }
+
+            }
+            function getDescendents(d,dimensionNames){
+              let ind=dimensionNames.indexOf(d.dimension);
+              dimensionNames=dimensionNames.slice(ind+1,dimensionNames.length);
+              pos_nod=nodes.filter(function(n){return n.dimension==dimensionNames[0]});
+              let desc=[];
+              pos_nod.forEach(function(n){
+                let path=n.path.split('\u0000');
+                if (d.name==path[0]){
+                  desc.push(n);
+                }
+              });
+
+              d.descendents=desc;
+              if (desc.length==0) return;
+              if (desc.length>0) {
+                d.descendents.forEach(function(de){
+                  getDescendents(de,dimensionNames)
+                });
+              }
+
+            }
+            if (!d.descendents) getDescendents(d,dimensionNames);
+            if (!d.parent) getParents(d,dimensionNames);
             if (dragging) return;
             var highlight = [];
             (function recurse(d) {
               highlight.push(d);
-              for (var k in d.children) recurse(d.children[k]);
+               for (var k in d.descendents) recurse(d.descendents[k]);
             })(d);
             highlight.shift();
-            if (ancestors) while (d) highlight.push(d), d = d.parent;
+            if (ancestors) {
+              (function recurse(d){
+                highlight.push(d);
+                for (let k in d.parent) recurse(d.parent[k]);
+              })(d);
+            }
+            console.log(highlight);
             ribbon.filter(function(d) {
               var active = highlight.indexOf(d.node) >= 0;
               if (active) this.parentNode.appendChild(this);
@@ -498,6 +546,8 @@
           });
         });
         // console.log(dimensions);
+
+
         function getallComb(dimensions){
           let comb=[];
           for (let i=0; i<dimensions.length - 1; i++){
@@ -510,7 +560,6 @@
               }
               comb.push({dimension: dimensions[i+1].name, comb: temp});
             }
-
           }
           return comb;
         }
@@ -523,8 +572,8 @@
           }
         });
 
-        function recurse(p, d, depth, major) {
 
+        function recurse(p, d, depth, major) {
           var node = d.node,
               dimension = dimensions[depth];
             dimension.categories.forEach(function(c) {
@@ -540,7 +589,6 @@
             source.x = p.out.dx;
             source.dx = target.dx;
             p.out.dx += source.dx;
-
             child.node = child;
             child.source = source;
             child.target = target;
@@ -549,16 +597,15 @@
             if (depth + 1 < dimensions.length) recurse(c, child, depth + 1, major);
           });
         }
-
         var nouv_noeuds= recomputeNodes(nodes,getallComb(dimensions),dimensions.map(dimensionName));
         nouv_noeuds=getPaths(nouv_noeuds,dimensions);
         // console.log(nodes);
         // console.log(nouv_noeuds);
         return nouv_noeuds;
 
+
         function recomputeNodes(nodes,combi,dimension_names){
           var new_array=[];
-
           dimension_names.shift();
           dimension_names.forEach(function(dim){
             let list_nod=nodes.filter(function(nod){return nod.dimension==dim});
@@ -586,18 +633,14 @@
               total=list_nod.filter(function(n){return n.name==c[1];}).reduce(function(prev,cur){
                 return prev+cur.count;
               });
-
-
-
               new_array.push(new_nod);
               });
-
             });
-
           })
-
           return new_array.filter(function(node){return node.count>0;});
         }
+
+
         function getPaths(nodes,dimensions){
           for (let j=0; j<dimensions[0].categories.length; j++){
             dimensions[0].categories[j].in.dx=0;
@@ -625,22 +668,18 @@
                 source.dx=target.dx;
                 noeud.source=source;
                 noeud.target=target;
-
               })
-
-
             })
           }
           return nodes;
         }
-
       }
 
       // Dynamic path string for transitions.
       function ribbonPath(d) {
         var s = d.source,
             t = d.target;
-        return ribbonPathString(s.node.x0 + s.x0, s.dimension.y0, s.dx, t.node.x0 + t.x0, t.dimension.y0, t.dx, tension0);
+        return ribbonPathString(s.node.x + s.x, s.dimension.y, s.dx, t.node.x + t.x, t.dimension.y, t.dx, tension);
       }
 
       // Static path string for mouse handlers.
@@ -759,11 +798,7 @@
     function defaultTooltip(d) {
       var count = d.count,
           path = [];
-      while (d.parent) {
-        if (d.name) path.unshift(d.name);
-        d = d.parent;
-      }
-      return path.join(" → ") + "<br>" + comma(count) + " (" + percent(count / d.count) + ")";
+      return path.join(" → ") + "<br>" + comma(count) + " (" + percent(count / 833) + ")" + "<br>" + d.source.node.name + "->" + d.name + "<br>" + "Réaction: " + d.dimension;
     }
 
     function defaultCategoryTooltip(d) {
@@ -900,7 +935,7 @@ d3.select("#submit").on("click", function() {
     var chart = d3.parsets()
       .dimensions([""])
       .width(750)
-      .height(150*j)
+      .height(300*j)
       .tension(0.25);
 
     let wi=chart.width();

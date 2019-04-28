@@ -93,6 +93,35 @@ svg{
   /* transform: rotate(90); */
 }
 
+toolBar{
+  overflow: visible;
+  height: 60px;
+  min-height: 60px;
+  max-height: 60px;
+  top: 0;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.25s;
+  left: 0;
+  right: 0;
+
+
+}
+.left-tools{
+  float: left;
+}
+li{
+  overflow: visible;
+  text-align: left;
+  visibility: visible;
+  cursor: pointer;
+  /* padding: px; */
+}
+a {
+  color: #1abc9c;
+  text-decoration: none;
+}
+
+
 .resultsTable{
   position: relative;
   padding: 2vh;
