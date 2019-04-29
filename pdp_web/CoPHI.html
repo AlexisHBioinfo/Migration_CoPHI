@@ -5,38 +5,36 @@
   <meta charset="utf-8">
   <meta name="description" content="Metabolic flux visualization using parallel coordinates">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" type="text/css" href="d3.parsets.css">
   <script src="https://d3js.org/d3.v3.js"></script>
   <!-- <script src="https://d3js.org/d3.v4.js"></script> -->
 </head>
 <body>
   <div>
-    <div class="sidenav">
-      <h1>Import data</h1>
-      <p>Row labels</p>
-      <p>Column labels</p>
-      <input id="file" type="file" name="usrname">
-      <button id="submit" type="submit">Submit</button>
-    </div>
-    <div id)"Graph" class="wrapper">
-      <nav id="toolBar">
-        <ul class="left-tools">
-         <li id="select" data-tooltip="Exploration (Space)">
-           <a class="selected" data-content="pan">Sélectionner aggregat et ses descendants</a>
-         </li>
-         <li id="deleteAxis" data-tooltip="Delete (T)">
-             <a data-content="delete">Supprimer une dimension</a>
-         </li>
-       </ul>
-     </nav>
-      <!-- <script src="http://www.jasondavies.com/parallel-sets/d3.parsets.js"></script> -->
-      <!-- <script src="http://www.jasondavies.com/parallel-sets/highlight.min.js"></script> -->
-      <script type="text/javascript" src="view3.js"></script>
-      <button class="collapsible">Data</button>
-      <div class="content"></div>
-      <!--plusieurs script dispo : view, view2 et view3... plus ou moins complets et fonctionnel... cf commentaire en header -->
-    </div>
+  <div class="sidenav">
+    <h1>Import data</h1>
+    <p>Row labels</p>
+    <p>Column labels</p>
+    <input id="file" type="file" name="usrname">
+    <button id="submit" type="submit">Submit</button>
   </div>
-     <!-- <div class="resultsTable"></div> -->
+  <div id="Graph" class="wrapper">
+    <nav id="toolBar">
+      <ul class="left-tools">
+          <li id="select" data-tooltip="Exploration (Space)">
+            <a class="selected" data-content="pan">Sélectionner aggregat et ses descendants</a>
+          </li>
+          <li id="deleteAxis" data-tooltip="Delete (T)">
+              <a data-content="delete">Supprimer une dimension</a>
+          </li>
+        </ul>
+    </nav>
+    <script type="text/javascript" src="parsets.js"></script> 
+    <script src="http://www.jasondavies.com/parallel-sets/highlight.min.js"></script>
+    <script type="text/javascript" src="view3.js"></script>
+    <button class="collapsible">Data</button>
+    <div class="content"></div>
+    <!--plusieurs script dispo : view, view2 et view3... plus ou moins complets et fonctionnel... cf commentaire en header -->
+  </div>
+</div>
 </body>
 </html>
