@@ -17,19 +17,23 @@
     <input id="file" type="file" name="usrname">
     <button id="submit" type="submit">Submit</button>
   </div>
+  <nav id="toolBar">
+    <ul class="left-tools">
+        <li id="select" data-tooltip="Exploration (Space)">
+          <a class="selected" data-content="pan">Sélectionner aggregat et ses descendants</a>
+        </li>
+        <li id="Zoom" data-tooltip="Zoom (Z)">
+            <a class="zoom" data-content="delete">Zoomer</a>
+        </li>
+    </ul>
+    <ul class="right-tools">
+      <li id="move" data-tooltip="Move axis (M)">
+        <a class="axis" data-content="move">Déplacer les axes</a>
+      </li>
+    </ul>
+  </nav>
   <div id="Graph" class="wrapper">
-    <nav id="toolBar">
-      <ul class="left-tools">
-          <li id="select" data-tooltip="Exploration (Space)">
-            <a class="selected" data-content="pan">Sélectionner aggregat et ses descendants</a>
-          </li>
-          <li id="deleteAxis" data-tooltip="Delete (T)">
-              <a data-content="delete">Supprimer une dimension</a>
-          </li>
-        </ul>
-    </nav>
     <script type="text/javascript" src="parsets.js"></script> 
-    <script src="http://www.jasondavies.com/parallel-sets/highlight.min.js"></script>
     <script type="text/javascript" src="view3.js"></script>
     <button class="collapsible">Data</button>
     <div class="content"></div>

@@ -1,5 +1,28 @@
 var vis = d3.select(".wrapper").append("svg");
+var select=false;
+var but1=document.getElementsByClassName("selected");
+but1[0].addEventListener("click", function(){
+      select=!select;
+      console.log(select)
+    });
 
+var zooming=false;
+
+var but2=document.getElementsByClassName("zoom");
+but2[0].addEventListener("click", function(){
+  zooming=!zooming;
+  console.log(zooming);
+  select=false;
+});
+
+var moving=false;
+var but3=document.getElementsByClassName("axis");
+but3[0].addEventListener("click", function(){
+  moving=!moving;
+  console.log(moving);
+  select=false;
+  zooming=false;
+});
 // Given a text function and width function, truncates the text if necessary to
 // fit within the given width.
 function truncateText(text, width) {
@@ -18,6 +41,10 @@ function truncateText(text, width) {
     }
     return lo > 1 ? t.substr(0, lo - 2) + "…" : "";
   };
+}
+
+function zoomed() {
+  back.attr("transform", d3.event.transform);
 }
 
 function guessDelimiters (text, possibleDelimiters) {
@@ -40,6 +67,22 @@ function guessDelimiters (text, possibleDelimiters) {
       }
   }
 }
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+} 
+
+window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("toolBar");
+
+// Get the offset position of the navbar
+var sticky = navbar.offsetTop;
+navbar.setAttribute("width","100");
 
 d3.select("#submit").on("click", function() {
   let fich=document.getElementById("file");
@@ -113,11 +156,11 @@ d3.select("#submit").on("click", function() {
     var chart = d3.parsets()
       .dimensions([""])
       .width(750)
-      .height(300*j)
+      .height(75*j)
       .tension(0.25);
 
-    let wi=chart.width();
-    let he=chart.height();
+    var wi=chart.width();
+    var he=chart.height();
     let coordonneeRotation = function(){
       let x,y;
       if (wi<he){
@@ -137,9 +180,9 @@ d3.select("#submit").on("click", function() {
     var coll=d3.select(".collapsible");
     coll.style("top", wi+100+"px");
     var wrap=d3.select(".wrapper");
-    let coord=coordonneeRotation(wi,he);
-    let xrotation=coord[0];
-    let yrotation=coord[1];
+    var coord=coordonneeRotation(wi,he);
+    var xrotation=coord[0];
+    var yrotation=coord[1];
     vis.datum(csv).call(chart
         .value(csv[0].hasOwnProperty("Number") ? function(d) { return +d.Number; } : 1)
         .dimensions(function(d) { return d3.keys(d[0]).filter(function(d) { return d !== "Number"; }); }))
@@ -150,11 +193,44 @@ d3.select("#submit").on("click", function() {
           vis.style("top", 150+"px");
           var table=d3.select('.resultsTable');
           table.style("top", 150+"px");
-        };
+        }
+        var scale=1;
+       var zoom=d3.behavior.zoom()
+              .scaleExtent([-50,50])
+              .on("zoom", function(){
+                if (zooming==false) return;
+                var e=d3.event;
+
+                let g=d3.select("g");
+                console.log(g);         
+                g.attr("transform", [`scale(${e.scale})`].join(" "));
+                d3.select(".ribbon-mouse").attr("transform", [`scale(${e.scale})`].join(" "));
+                let aggr=d3.selectAll("g").filter(".dimension");
+                console.log(aggr);
+                aggr[0].forEach(element => {
+                  let t=d3.transform(d3.select(element).attr("transform")).translate;
+
+                  t[0]+=Math.min(0,Math.max(e.translate[0],wi-wi*e.scale));
+                  let temp=t[1]*(e.scale/scale); // arreglar esta parte 
+                  temp>5? t[1]=temp : t[1]=t[1];
+                  d3.select(element).attr("transform",[`translate(${t[0]},${t[1]}) scale(${e.scale})`].join(" "));
+                  console.log(element);
+                  
+                });
+              });
+
+      
+      vis.call(zoom)
+      .on("mousedown.zoom", null)
+      .on("touchstart.zoom", null)
+      .on("touchmove.zoom", null)
+      .on("touchend.zoom", null);
+      scale=e.scale; 
+      
     }
   reader.readAsText(file);
   // console.log(reader);
-
-
+  
 
 });
+

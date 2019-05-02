@@ -16,6 +16,7 @@
           tension = 1,
           tension0,
           duration = 500;
+          
   
       function parsets(selection) {
         selection.each(function(data, i) {
@@ -136,13 +137,17 @@
                 .call(d3.behavior.drag()
                   .origin(identity)
                   .on("dragstart", function(d) {
+                    if (moving==false) return;
+                    d3.select(".ribbon").attr("transform","scale(1,1)");
+                    d3.select(".ribbon-mouse").attr("transform","scale(1,1)");
                     dragging = true;
                     d.y0 = d.y;
                   })
                   .on("drag", function(d) {
+                    if (moving==false) return;
                     d.y0 = d.y = d3.event.y;
                     for (var i = 1; i < dimensions.length; i++) {
-                      if (height * dimensions[i].y < height * dimensions[i - 1].y) {
+                      if (height * dimensions[i].y   < height * dimensions[i - 1].y ) {
                         dimensions.sort(compareY);
                         dimensionNames = dimensions.map(dimensionName);
                         ordinal.domain([]).range(d3.range(dimensions[0].categories.length));
@@ -165,6 +170,7 @@
                         .attr("d", ribbonPath);
                   })
                   .on("dragend", function(d) {
+                    if (moving==false) return;
                     dragging = false;
                     unhighlight();
                     var y0 = 45,
@@ -179,7 +185,7 @@
             dimension.select("text").select("tspan.sort.alpha")
                 .on("click.parsets", sortBy("alpha", function(a, b) { return a.name < b.name ? 1 : -1; }, dimension));
             dimension.select("text").select("tspan.sort.size")
-                .on("click.parsets", sortBy("size", function(a, b) { return b.count - a.count; }, dimension));
+                .on("click.parsets", sortBy("invert", function(a, b) { return b.count - a.count; }, dimension));
             dimension.transition().duration(duration)
                 .attr("transform", function(d) { return "translate(0," + d.y + ")"; })
                 .tween("ribbon", ribbonTweenY);
@@ -200,6 +206,9 @@
               event.sortCategories();
             };
           }
+
+          
+          
   
           function updateRibbons() {
             console.log(nodes);
@@ -220,9 +229,10 @@
             mouse.enter().append("path")
                 .on("click.parsets", function(d) {
                   ribbon.classed("active", false);
-                  if (dragging) return;
+                  if (dragging || select==false) return;
                   highlight(d = d.node, true);
-                  showTooltip(tooltip_.call(this, d));
+                  console.log(nodes);
+                  showTooltip(tooltip_.call(this, d,total));
                   d3.event.stopPropagation();
                 });
             mouse
@@ -261,11 +271,7 @@
           // Highlight a node and its descendants, and optionally its ancestors.
           function highlight(d, ancestors) {
             function getParents(d,dimensionNames){
-              if ('parent' in d){
-                d.parent.forEach(function(de){
-                  getParents(de,dimensionNames)
-                });
-              }
+              if ('parent' in d) return; 
               else {
                 let ind=dimensionNames.indexOf(d.dimension);
                 dimensionNames=dimensionNames.slice(0,ind); 
@@ -288,11 +294,7 @@
               }
             }           
             function getDescendents(d,dimensionNames){
-              if ('descendents' in d){
-                d.descendents.forEach(function(de){
-                  getDescendents(de,dimensionNames)
-                });
-              }
+              if ('descendents' in d) return;
               else {
                 let ind=dimensionNames.indexOf(d.dimension);
                 dimensionNames=dimensionNames.slice(ind+1,dimensionNames.length); 
@@ -314,17 +316,20 @@
                 }
               }
             }
-            if (!d.descendents) getDescendents(d,dimensionNames);
             if (!d.parent) getParents(d,dimensionNames);
+            if (!d.descendents) getDescendents(d,dimensionNames);
+                
             if (dragging) return;
             var highlight = [];
             (function recurse(d) {
+              if (highlight.includes(d)) return; 
               highlight.push(d);
               for (var k in d.descendents) recurse(d.descendents[k]);
             })(d);
             highlight.shift();
             if (ancestors) {
               (function recurse(d){
+                if (highlight.includes(d)) return; 
                 highlight.push(d);
                 for (let k in d.parent) recurse(d.parent[k]);
               })(d);
@@ -430,7 +435,7 @@
           }
         });
       }
-  
+      
       parsets.dimensionFormat = function(_) {
         if (!arguments.length) return dimensionFormat;
         dimensionFormat = _;
@@ -562,6 +567,10 @@
             x += c.dx + p;
           });
         });
+        /* Cette fonction calcule toutes les combinaisons possibles de catégories entre une dimension et 
+        la dimension precédente. On obtiendra un array qui contient "n-1" objets, où "n" correspond au nombre de
+        dimensions. Chaque objet stocke le nom de la dimension, ainsi que les combinaisons possible entre cette dimension 
+        et la dimension precédente dans un array. */   
         function getallComb(dimensions){
           let comb=[];
           for (let i=0; i<dimensions.length - 1; i++){
@@ -617,7 +626,10 @@
         nouv_noeuds=getPaths(nouv_noeuds,dimensions);
         console.log(nouv_noeuds);
         return nouv_noeuds;
-
+        /* Recalculer les noeuds à partir de ceux obtenus dans la fonction recurse. 
+        Cela se base sur la variable "path" qui fait partie des objets qui contiennent l'information sur
+        les noeuds. Cette variable contient les noms des dimensions precédentes auxquellles le noeud est lié.
+        Les deux dérniers éléments sont prises et comparés avec les combinaisons possibles.    */ 
         function recomputeNodes(nodes,combi,dimension_names){
           var new_array=[]; 
           
@@ -642,8 +654,6 @@
                   }
                   new_nod.major=nod.major;
                   new_nod.node=new_nod;
-                  /* let parent=new_nod.filter(function(par){return par.name==c[0];});
-                  new_nod.parent=parent; */
                 });
               total=list_nod.filter(function(n){return n.name==c[1];}).reduce(function(prev,cur){
                 return prev+cur.count;
@@ -667,6 +677,7 @@
           
           return new_array.filter(function(node){return node.count>0;}); 
         }
+        // Recalcule les coordonnées des arêtes. 
         function getPaths(nodes,dimensions){
           for (let j=0; j<dimensions[0].categories.length; j++){
             dimensions[0].categories[j].in.dx=0;
@@ -824,7 +835,7 @@
   
     function translateY(d) { return "translate(0," + d.y + ")"; }
   
-    function defaultTooltip(d) {
+    function defaultTooltip(d,total) {
       var count = d.count,
           path = [];
       /* if (d.parent.length>0){
@@ -833,7 +844,8 @@
           d = d.parent;
         }
       } */
-      return path.join(" → ") + "<br>" + comma(count) + " (" + percent(count / 833) + ")" + "<br>" + d.source.node.name + "->" + d.name + "<br>" + "Réaction: " + d.dimension;
+      
+      return path.join(" → ") + "<br>" + comma(count) + " (" + percent(count / total) + ")" + "<br>" + d.source.node.name + "->" + d.name + "<br>" + "Réaction: " + d.dimension;
     }
   
     function defaultCategoryTooltip(d) {
