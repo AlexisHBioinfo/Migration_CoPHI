@@ -74,7 +74,7 @@ function myFunction() {
   } else {
     navbar.classList.remove("sticky");
   }
-} 
+}
 
 window.onscroll = function() {myFunction()};
 
@@ -142,9 +142,10 @@ d3.select("#submit").on("click", function() {
           var content = this.nextElementSibling;
           if (content.style.display === "block") {
             content.style.display = "none";
-          } else {
-            content.style.display = "block",
-            content.style.top=wi+150+"px";
+          }
+          else {
+            content.style.display = "block";
+            content.style.top=(window.innerHeight-12)+"px";
           }
         });
       }
@@ -178,7 +179,7 @@ d3.select("#submit").on("click", function() {
       return [x,y];
     }
     var coll=d3.select(".collapsible");
-    coll.style("top", wi+100+"px");
+    // coll.style("top", wi+100+"px");
     var wrap=d3.select(".wrapper");
     var coord=coordonneeRotation(wi,he);
     var xrotation=coord[0];
@@ -202,7 +203,7 @@ d3.select("#submit").on("click", function() {
                 var e=d3.event;
 
                 let g=d3.select("g");
-                console.log(g);         
+                console.log(g);
                 g.attr("transform", [`scale(${e.scale})`].join(" "));
                 d3.select(".ribbon-mouse").attr("transform", [`scale(${e.scale})`].join(" "));
                 let aggr=d3.selectAll("g").filter(".dimension");
@@ -211,26 +212,26 @@ d3.select("#submit").on("click", function() {
                   let t=d3.transform(d3.select(element).attr("transform")).translate;
 
                   t[0]+=Math.min(0,Math.max(e.translate[0],wi-wi*e.scale));
-                  let temp=t[1]*(e.scale/scale); // arreglar esta parte 
+                  let temp=t[1]*(e.scale/scale); // arreglar esta parte
                   temp>5? t[1]=temp : t[1]=t[1];
                   d3.select(element).attr("transform",[`translate(${t[0]},${t[1]}) scale(${e.scale})`].join(" "));
                   console.log(element);
-                  
+
                 });
               });
 
-      
+
       vis.call(zoom)
       .on("mousedown.zoom", null)
       .on("touchstart.zoom", null)
       .on("touchmove.zoom", null)
       .on("touchend.zoom", null);
-      scale=e.scale; 
-      
+      scale=e.scale;
+
     }
   reader.readAsText(file);
   // console.log(reader);
-  
+
+
 
 });
-

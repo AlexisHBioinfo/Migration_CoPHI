@@ -9,12 +9,12 @@
   <!-- <script src="https://d3js.org/d3.v4.js"></script> -->
 </head>
 <body>
-  <div>
   <div class="sidenav">
-    <h1>Import data</h1>
-    <p>Row labels</p>
-    <p>Column labels</p>
-    <input id="file" type="file" name="usrname">
+    <h1 class="cophi">CoPHI</h1>
+    <div>
+      <input class="input-file" id="file" type="file">
+      <label for="file" class="input-file-trigger" tabindex="0">Select a file</label>
+    </div>
     <button id="submit" type="submit">Submit</button>
   </div>
   <nav id="toolBar">
@@ -25,20 +25,18 @@
         <li id="Zoom" data-tooltip="Zoom (Z)">
             <a class="zoom" data-content="delete">Zoomer</a>
         </li>
+        <li id="move" data-tooltip="Move axis (M)">
+          <a class="axis" data-content="move">Déplacer les axes</a>
+        </li>
     </ul>
-    <ul class="right-tools">
-      <li id="move" data-tooltip="Move axis (M)">
-        <a class="axis" data-content="move">Déplacer les axes</a>
-      </li>
-    </ul>
+    <!-- <ul class="right-tools"></ul> -->
   </nav>
   <div id="Graph" class="wrapper">
-    <script type="text/javascript" src="parsets.js"></script> 
+    <script type="text/javascript" src="parsets.js"></script>
     <script type="text/javascript" src="view3.js"></script>
-    <button class="collapsible">Data</button>
-    <div class="content"></div>
     <!--plusieurs script dispo : view, view2 et view3... plus ou moins complets et fonctionnel... cf commentaire en header -->
   </div>
-</div>
+  <button class="collapsible">Data</button>
+  <div class="content"></div>
 </body>
 </html>

@@ -1,23 +1,30 @@
+.cophi{
+  font-family:Arial;
+  font-size:50pt;
+  color: #6d966e;
+}
+
 .sidenav{
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 250px;
+  width: 330px;
   position: fixed;
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #EAE7DC;
+  background-color: #fedfb3;
   overflow-x: visible; /* Disable horizontal scroll */
   padding-top: 20px;
+  text-align: center;
 }
-svg{
-  background-size: 1000px;
-}
+
 .wrapper{
-  width: 6000px;
+  width: 100%;
   height: 100%;
   margin-right: auto;
   position : relative;
+  /* background-color: #FBEEC1; */
 }
+
 .resultsTable{
   position: absolute;
   table-layout: fixed;
@@ -27,22 +34,74 @@ svg{
   font-size: 10pt;
   align-self: auto;
   border-collapse: collapse;
-  
+
 }
 
+.input-file {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.input-file + label {
+  position:relative;
+  margin-top: 100px;
+  font-family:Arial;
+  font-size:23px;
+  color:#df7c7c;
+  border: 2px solid currentColor;
+  padding: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  top: 100px;
+  width: 200px;
+}
+
+.input-file:focus + label,
+.input-file.has-focus + label,
+.input-file + label:hover {
+  background-color: #ffd1a3;
+}
+
+#submit{
+  /* text-align: center; */
+  position: relative;
+  margin-top: 200px;
+  font-family:Arial;
+  font-size:23px;
+  color: #ffd1a3;
+  background-color:#df7c7c;
+  border: 2px solid currentColor;
+  padding:15px;
+  font-weight: 700;
+  cursor:pointer;
+  min-width: 165px;
+}
+
+#submit:active{
+  position:relative;
+  top:3px;
+}
+
+
 #toolBar{
-  overflow: visible;
-  height: 60px;
-  min-height: 60px;
-  max-height: 60px;
-  top: 0;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  overflow-x: visible;
+  height: 90px;
+  position: relative;
+  /* margin-left: 330px; */
+  /* min-height: 60px;
+  max-height: 60px; */
+  /* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); */
   transition: box-shadow 0.25s;
   left: 0;
   right: 0;
-
-
-
+  background-color: #a6d8a7;
+  padding: 8px;
+  font-family:Arial;
+  font-size:12pt;
 }
 
 .left-tools{
@@ -51,17 +110,17 @@ svg{
 .right-tools{
   float: right;
 }
+
 li{
   overflow: visible;
   text-align: left;
   visibility: visible;
   cursor: pointer;
-  padding: "px;
+  padding: 3px;
 }
 a {
-  color: #1abc9c;
-  text-decoration: #2ca02c;
-  
+  color: #03262d;
+  text-decoration: #0b7c68;
 }
 .resultsTable tbody{
   display: block;
@@ -84,24 +143,30 @@ a {
   text-align: left;
   width: 200px;
 }
+
 .collapsible {
-  position: absolute;
-  left:0px;
-  background-color: #777;
-  color: white;
+  color:#03262d ;
   cursor: pointer;
   padding: 18px;
   width: 100%;
   border: none;
   text-align: left;
   outline: none;
-  font-size: 15px;
-
+  bottom: 0;
+  position :absolute;
+  overflow-x: visible;
+  /* margin-left: 330px; */
+  background-color: #a6d8a7;
+  box-sizing: content-box;
+  top: auto;
+  font-family:Arial;
+  font-size:12pt;
 }
 
 .active, .collapsible:hover {
-  background-color: #555;
+  background-color:#5fab60;
 }
+
 .content {
   position: absolute;
   padding: 0 18px;
@@ -109,13 +174,17 @@ a {
   overflow: hidden;
   background-color: #f1f1f1;
 }
+
 body {
   font-family: sans-serif;
   font-size: 16px;
-  width: 960px;
-  margin: 1em auto;
-  position: relative;
+  min-height: 100%;
+  min-width: 100%;
+  margin-left: 330px;
+  margin-top: auto;
+  box-sizing: inherit;
 }
+
 h1, h2, .dimension text {
   text-align: center;
   font-family: "PT Sans", Helvetica;
