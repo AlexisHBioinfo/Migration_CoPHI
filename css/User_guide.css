@@ -7,17 +7,63 @@ h2{
   position: relative;
 }
 
-.collapsible {
-  position: absolute;
-  left:0px;
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
+.screenshot {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+#table, #scroll_up, #scroll_down {
+  width: 20%;
+}
+
+.click_interact {
+  width: 30%;
+}
+
+.click_interact:hover {
+  width: 50%;
+}
+
+.displace, #Parcourir, #Submit, #CoPHI, #select {
+  width: 10%;
+}
+
+#directory {
+  width: 25%;
+}
+
+#table:hover, #directory:hover, #scroll_up:hover, #scroll_down:hover{
+  width: 50%
+}
+
+#Submit:hover, #Parcourir:hover, .displace:hover, #select:hover{
+  width: 20%;
+}
+
+.example_div {
+  text-align: center;
+}
+
+.scroll, .displace {
+  display: inline-block;
+  margin: 0%;
+
+}
+
+#scroll_up {
+  padding-right: 60px;
+}
+
+#scroll_down {
+  padding-left: 60px;
+}
+
+#displace_1 {
+  padding-right: 60px;
+}
+
+#displace_2 {
+  padding-left: 60px;
 }
