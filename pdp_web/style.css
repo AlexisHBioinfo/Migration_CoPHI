@@ -81,11 +81,24 @@
   min-width: 165px;
 }
 
-#submit:active{
+#submit:active, #User_guide:active{
   position:relative;
   top:3px;
 }
 
+#User_guide {
+  position: relative;
+  margin-top: 200px;
+  font-family:Arial;
+  font-size:15px;
+  color: #df7c7c;
+  background-color:#beddbf;
+  border: 2px solid currentColor;
+  padding:15px;
+  font-weight: 700;
+  cursor:pointer;
+  min-width: 165px;
+}
 
 #toolBar{
   overflow-x: visible;
