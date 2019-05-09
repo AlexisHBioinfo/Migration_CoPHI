@@ -86,6 +86,19 @@
   top:3px;
 }
 
+#User_guide {
+  position: relative;
+  margin-top: 200px;
+  font-family:Arial;
+  font-size:17px;
+  color: #6d966e;
+  background-color:#fedfb3;
+  border: 2px solid currentColor;
+  padding:15px;
+  font-weight: 700;
+  cursor:pointer;
+  min-width: 165px;
+}
 
 #toolBar{
   overflow-x: visible;
