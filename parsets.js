@@ -2,7 +2,7 @@
 
 // Script made by CLAUDE Elsa, HUCTEAU Alexis, GARCIA Juan Manuel
 // 09/05/2019
-// Javascript migration of CoPHI web application 
+// Javascript migration of CoPHI web application
 // Based on :
   // Parallel Sets by Jason Davies, http://www.jasondavies.com/
   // Functionality based on http://eagereyes.org/parallel-sets
@@ -108,7 +108,7 @@
             d.count = total;
           });
           dimension = dimension.data(dimensions, dimensionName);
-          // Add dimensions to SVG element as well as their events  
+          // Add dimensions to SVG element as well as their events
           var dEnter = dimension.enter().append("g")
               .attr("class", "dimension")
               .attr("transform", function(d) { return "translate(0," + d.y + ")"; })
@@ -214,7 +214,7 @@
 
           ribbon.enter().append("path")
               .each(function(d) {
-                d.source.x0 = d.source.x; 
+                d.source.x0 = d.source.x;
                 d.target.x0 = d.target.x;
               })
               .attr("class", function(d) { return "category-" + d.major; })
@@ -228,7 +228,6 @@
                 ribbon.classed("active", false);
                 if (dragging || select==false) return;
                 highlight(d = d.node, true);
-                console.log(nodes);
                 showTooltip(tooltip_.call(this, d,total));
                 d3.event.stopPropagation();
               });
@@ -236,7 +235,6 @@
               .sort(function(a, b) { return b.count - a.count; })
               .attr("d", ribbonPathStatic);
           mouse.exit().remove();
-          console.log(ribbon);
         }
 
         // Animates the x-coordinates only of the relevant ribbon paths.
@@ -268,7 +266,7 @@
 
         // Highlight a ribbon, its descendants and ancestors.
         function highlight(d, ancestors) {
-          function getParents(d,dimensionNames){ // Calculates the parents of the selected ribbon. 
+          function getParents(d,dimensionNames){ // Calculates the parents of the selected ribbon.
             if ('parent' in d) return;
             else {
               let ind=dimensionNames.indexOf(d.dimension);
@@ -291,7 +289,7 @@
               }
             }
           }
-          function getDescendents(d,dimensionNames){ // Calculates the descendents of the selected ribbon.  
+          function getDescendents(d,dimensionNames){ // Calculates the descendents of the selected ribbon.
             if ('descendents' in d) return;
             else {
               let ind=dimensionNames.indexOf(d.dimension);
@@ -314,7 +312,7 @@
               }
             }
           }
-          if (!d.parent) getParents(d,dimensionNames); 
+          if (!d.parent) getParents(d,dimensionNames);
           if (!d.descendents) getDescendents(d,dimensionNames);
 
           if (dragging) return;
@@ -325,7 +323,6 @@
             for (var k in d.descendents) recurse(d.descendents[k]);
           })(d);
           highlight.shift();
-          console.log(highlight);
           if (ancestors) {
             (function recurse(d){
               if (highlight.includes(d)) return;
@@ -347,7 +344,7 @@
           hideTooltip();
         }
 
-        function updateCategories(g) { // Updates dimensions' categories and adds the corresponding events 
+        function updateCategories(g) { // Updates dimensions' categories and adds the corresponding events
           var category = g.selectAll("g.category")
               .data(function(d) { return d.categories; }, function(d) { return d.name; });
 
@@ -509,7 +506,7 @@
           x += c.dx + p;
         });
       });
-      function getallComb(dimensions){ // Calculates all the combinations between a dimension "i" and the previous "i-1" dimension. 
+      function getallComb(dimensions){ // Calculates all the combinations between a dimension "i" and the previous "i-1" dimension.
         let comb=[];
         for (let i=0; i<dimensions.length - 1; i++){
           let source=dimensions[i].categories;
@@ -609,7 +606,7 @@
 
         return new_array.filter(function(node){return node.count>0;});
       }
-      function getPaths(nodes,dimensions){ // Recomputes the x and y-coordinates of the ribbons. 
+      function getPaths(nodes,dimensions){ // Recomputes the x and y-coordinates of the ribbons.
         for (let j=0; j<dimensions[0].categories.length; j++){
           dimensions[0].categories[j].in.dx=0;
           dimensions[0].categories[j].out.dx=0;

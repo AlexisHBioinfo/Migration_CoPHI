@@ -1,7 +1,7 @@
 // Script made by CLAUDE Elsa, HUCTEAU Alexis, GARCIA Juan Manuel
 // 09/05/2019
-// Javascript migration of CoPHI web application 
-// Based on: 
+// Javascript migration of CoPHI web application
+// Based on:
     // View3 template on http://oer.uoc.edu/VIS/D3/CA/parallel-sets/index.html
 
 
@@ -10,7 +10,6 @@ var select=false;
 var but1=document.getElementsByClassName("selected");
 but1[0].addEventListener("click", function(){
       select=!select;
-      console.log(select);
       moving=false;
       zooming=false;
       if (select==true){
@@ -28,7 +27,6 @@ var zooming=false;
 var but2=document.getElementsByClassName("zoom");
 but2[0].addEventListener("click", function(){
   zooming=!zooming;
-  console.log(zooming);
   select=false;
   moving=false;
   if (zooming==true){
@@ -45,7 +43,6 @@ var moving=false;
 var but3=document.getElementsByClassName("axis");
 but3[0].addEventListener("click", function(){
   moving=!moving;
-  console.log(moving);
   select=false;
   zooming=false;
   if (moving==true){
@@ -107,7 +104,6 @@ d3.select("#submit").on("click", function() {
 
     var lignes=reader.result.split('\n');
     let separateur=guessDelimiters(lignes[1],[" ",",","\t",";"]);
-    console.log(separateur);
 
     if (separateur.length>1){
         separateur=separateur.pop();
@@ -126,7 +122,6 @@ d3.select("#submit").on("click", function() {
     for (let i in csv[0]){
       j++;
     }
-    console.log(csv);
     function tabulate(data, columns) {
       var table = d3.select('.content').append('table')
       var thead = table.append('thead')
@@ -220,28 +215,24 @@ d3.select("#submit").on("click", function() {
                 var e=d3.event;
 
                 let g=d3.select("g");
-                console.log(g);
                 g.attr("transform", [`scale(${e.scale})`].join(" "));
                 d3.select(".ribbon-mouse").attr("transform", [`scale(${e.scale})`].join(" "));
                 let aggr=d3.selectAll("g").filter(".dimension");
-                console.log(aggr);
                 aggr[0].forEach(element => {
                   let t=d3.transform(d3.select(element).attr("transform")).translate;
 
                   t[0]+=Math.min(0,Math.max(e.translate[0],wi-wi*e.scale));
-                  let temp=t[1]*(e.scale/scale); 
+                  let temp=t[1]*(e.scale/scale);
                   temp>5? t[1]=temp : t[1]=t[1];
                   d3.select(element).attr("transform",[`translate(${t[0]},${t[1]}) scale(${e.scale})`].join(" "));
-                  console.log(element);
                 });
               });
-
       vis.call(zoom)
       .on("mousedown.zoom", null)
       .on("touchstart.zoom", null)
       .on("touchmove.zoom", null)
       .on("touchend.zoom", null);
-      scale=e.scale;
+      // scale=e.scale;
 
     }
   reader.readAsText(file);
