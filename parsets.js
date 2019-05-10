@@ -128,11 +128,6 @@
               .attr("class", "name")
               .text(dimensionFormatName);
           textEnter.append("tspan")
-              .attr("class", "sort size")
-              .attr("dx-2", "2em")
-              .text("invert »")
-              .on("click.parsets", cancelEvent);
-          textEnter.append("tspan")
               .attr("class", "sort alpha")
               .attr("visibility","hidden")
               .attr("dx", "2em")
@@ -189,8 +184,6 @@
                 }));
           dimension.select("text").select("tspan.sort.alpha")
               .on("click.parsets", sortBy("alpha", function(a, b) { return a.name < b.name ? 1 : -1; }, dimension));
-          dimension.select("text").select("tspan.sort.size")
-              .on("click.parsets", sortBy("invert", function(a, b) { return moving==false ? NaN : b.count - a.count; }, dimension));
           dimension.transition().duration(duration)
               .attr("transform", function(d) { return "translate(0," + d.y + ")"; })
               .tween("ribbon", ribbonTweenY);
@@ -776,7 +769,7 @@
   function defaultTooltip(d,total) {
     var count = d.count,
         path = [];
-    return path.join(" → ") + "<br>" + comma(count) + " (" + percent(count / total) + ")" + "<br>" + d.source.node.name + "->" + d.name + "<br>" + "Réaction: " + d.dimension;
+    return path.join(" → ") + "<br>" + comma(count) + " (" + percent(count / total) + ")" + "<br>" + d.source.node.name + "->" + d.name + "<br>" + d.parent[0].dimension + "->" + d.dimension;
   }
 
   function defaultCategoryTooltip(d) {
