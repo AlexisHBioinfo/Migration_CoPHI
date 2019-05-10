@@ -107,8 +107,9 @@ d3.select("#submit").on("click", function() {
 
     var lignes=reader.result.split('\n');
     let separateur=guessDelimiters(lignes[1],[" ",",","\t",";"]);
+    console.log(separateur);
 
-    if (separateur.length>0){
+    if (separateur.length>1){
         separateur=separateur.pop();
 
     }
@@ -119,9 +120,13 @@ d3.select("#submit").on("click", function() {
     var del=d3.dsv(separateur,"text/plain");
     var csv=del.parse(reader.result);
     let j=-1;
+    csv.forEach(function(line){
+      delete line[''];
+    });
     for (let i in csv[0]){
       j++;
     }
+    console.log(csv);
     function tabulate(data, columns) {
       var table = d3.select('.content').append('table')
       var thead = table.append('thead')
