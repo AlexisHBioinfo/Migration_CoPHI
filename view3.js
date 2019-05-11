@@ -207,6 +207,12 @@ d3.select("#submit").on("click", function() {
           var table=d3.select('.resultsTable');
           table.style("top", 150+"px");
         }
+        var coord_in=[];
+        let aggr=d3.selectAll("g").filter(".dimension");
+        aggr[0].forEach(element => {
+          let t=d3.transform(d3.select(element).attr("transform")).translate;
+          coord_in.push(t[1]);
+        });
         var scale=1;
        var zoom=d3.behavior.zoom()
               .scaleExtent([-50,50])
@@ -215,16 +221,18 @@ d3.select("#submit").on("click", function() {
                 var e=d3.event;
 
                 let g=d3.select("g");
+                console.log(g);
                 g.attr("transform", [`scale(${e.scale})`].join(" "));
                 d3.select(".ribbon-mouse").attr("transform", [`scale(${e.scale})`].join(" "));
                 let aggr=d3.selectAll("g").filter(".dimension");
+                console.log(aggr);
+                var cont=0;
                 aggr[0].forEach(element => {
                   let t=d3.transform(d3.select(element).attr("transform")).translate;
 
-                  t[0]+=Math.min(0,Math.max(e.translate[0],wi-wi*e.scale));
-                  let temp=t[1]*(e.scale/scale);
-                  temp>5? t[1]=temp : t[1]=t[1];
+                  t[1]=coord_in[cont]*e.scale;
                   d3.select(element).attr("transform",[`translate(${t[0]},${t[1]}) scale(${e.scale})`].join(" "));
+                  cont+=1;
                 });
               });
       vis.call(zoom)
