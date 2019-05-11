@@ -1,10 +1,8 @@
-///////////////////////////////////////////////// OBJET PARSETS //////////////////////////////////////////////////////////////////
-
 // Script made by CLAUDE Elsa, HUCTEAU Alexis, GARCIA Juan Manuel
 // 09/05/2019
 // Javascript migration of CoPHI web application
 // Based on :
-  // Parallel Sets by Jason Davies, http://www.jasondavies.com/
+  // parsets template by Jason Davies, http://www.jasondavies.com/
   // Functionality based on http://eagereyes.org/parallel-sets
 
 

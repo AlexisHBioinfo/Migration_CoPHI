@@ -2,7 +2,7 @@
 // 09/05/2019
 // Javascript migration of CoPHI web application
 // Based on:
-    // View3 template on http://oer.uoc.edu/VIS/D3/CA/parallel-sets/index.html
+    // parallel sets template on http://oer.uoc.edu/VIS/D3/CA/parallel-sets/index.html
 
 
 var vis = d3.select(".wrapper").append("svg");
