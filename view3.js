@@ -221,11 +221,9 @@ d3.select("#submit").on("click", function() {
                 var e=d3.event;
 
                 let g=d3.select("g");
-                console.log(g);
                 g.attr("transform", [`scale(${e.scale})`].join(" "));
                 d3.select(".ribbon-mouse").attr("transform", [`scale(${e.scale})`].join(" "));
                 let aggr=d3.selectAll("g").filter(".dimension");
-                console.log(aggr);
                 var cont=0;
                 aggr[0].forEach(element => {
                   let t=d3.transform(d3.select(element).attr("transform")).translate;
@@ -245,3 +243,9 @@ d3.select("#submit").on("click", function() {
     }
   reader.readAsText(file);
 });
+
+function move_svg(){
+    var parent = d3.select(this.parentNode);
+	parent.attr("x", function(){return d3.event.dx + parseInt(parent.attr("x"))})
+			.attr("y", function(){return d3.event.dy + parseInt(parent.attr("y"))});
+};

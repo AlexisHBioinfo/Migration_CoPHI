@@ -119,6 +119,7 @@
 
 .left-tools{
   float: left;
+  display: flex;
 }
 .right-tools{
   float: right;
@@ -129,7 +130,7 @@ li{
   text-align: left;
   visibility: visible;
   cursor: pointer;
-  padding: 3px;
+  padding: 20px;
 }
 a {
   color: #03262d;
@@ -203,19 +204,39 @@ h1, h2, .dimension text {
   font-family: "PT Sans", Helvetica;
   font-weight: 300;
 }
+
+.dimension text {
+  font-size: 50%;
+}
+
+
+.dimension text:hover {
+  transform: translate(0, 40px);
+  font-size: 150%;
+}
+
+.category text {
+  text-align: center;
+  font-size: 150%;
+  font-family: "PT Sans", Helvetica;
+}
+
 h1 {
   font-size: 4em;
   margin: .5em 0 0 0;
 }
+
 h2 {
   font-size: 2em;
   margin: 1em 0 0.5em;
   border-bottom: solid #ccc 1px;
 }
+
 p.meta, p.footer {
   font-size: 13px;
   color: #333;
 }
+
 p.meta {
   text-align: center;
 }
@@ -275,16 +296,9 @@ pre, code { font-family: "Menlo", monospace; }
 .ribbon path.active { fill-opacity: 1; }
 .ribbon-mouse path { fill-opacity: 0; }
 
-.category-0 { fill: red; stroke: red; }
-.category-1 { fill: #ff7f0e; stroke: #ff7f0e; }
-.category-2 { fill: #2ca02c; stroke: #2ca02c; }
-.category-3 { fill: #d62728; stroke: #d62728; }
-.category-4 { fill: #9467bd; stroke: #9467bd; }
-.category-5 { fill: #8c564b; stroke: #8c564b; }
-.category-6 { fill: #e377c2; stroke: #e377c2; }
-.category-7 { fill: #7f7f7f; stroke: #7f7f7f; }
-.category-8 { fill: #bcbd22; stroke: #bcbd22; }
-.category-9 { fill: #17becf; stroke: #17becf; }
+.category-0 { fill: #6fae14; }
+.category-1 { fill: #1ba212; }
+.category-2 { fill: #149675; }
 
 .tooltip {
   background-color: rgba(242, 242, 242, .6);

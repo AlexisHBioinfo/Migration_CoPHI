@@ -121,16 +121,10 @@
               .attr("height", 45);
           var textEnter = dEnter.append("text")
               .attr("class", "dimension")
-              .attr("transform", "translate(0,-25)");
+              .attr("transform", "translate(0,15)");
           textEnter.append("tspan")
               .attr("class", "name")
               .text(dimensionFormatName);
-          textEnter.append("tspan")
-              .attr("class", "sort alpha")
-              .attr("visibility","hidden")
-              .attr("dx", "2em")
-              .text("alpha »")
-              .on("click.parsets", cancelEvent);
           dimension
               .call(d3.behavior.drag()
                 .origin(identity)
@@ -209,13 +203,12 @@
         function updateRibbons() { // Update ribbons and add events related to them
           ribbon = g.select(".ribbon").selectAll("path")
               .data(nodes);
-
           ribbon.enter().append("path")
               .each(function(d) {
                 d.source.x0 = d.source.x;
                 d.target.x0 = d.target.x;
               })
-              .attr("class", function(d) { return "category-" + d.major; })
+              .attr("class", function(d) { return "category-" + d.name; })
               .attr("d", ribbonPath);
           ribbon.sort(function(a, b) { return parseInt(a.name) > parseInt(b.name); });
           ribbon.exit().remove();
@@ -355,8 +348,8 @@
               .tween("ribbon", ribbonTweenX);
           categoryEnter.append("rect")
               .attr("width", function(d) { return d.dx; })
-              .attr("y", -20)
-              .attr("height", 20);
+              .attr("y", -10)
+              .attr("height", 10);
           categoryEnter.append("line")
               .style("stroke-width", 2);
           categoryEnter.append("text")
@@ -369,7 +362,8 @@
           category.select("line")
               .attr("x2", function(d) { return d.dx; });
           category.select("text")
-              .text(truncateText(function(d) { return d.name; }, function(d) { return d.dx; }));
+              .attr("transform","rotate(90,5,-10)")
+              .text(function(d) { return d.name; });
         }
       });
     }
