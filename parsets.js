@@ -492,25 +492,14 @@
         var x = 0,
             p = spacing / (d.categories.length - 1);
         d.categories.forEach(function(c) {
-          console.log("total = " + total);
-          console.log("width = "+ width);
-          console.log("p = " + p);
-          console.log("spacing = "+ spacing);
-          console.log("c.count = ");
-          console.log(c.count);
-          //modif' emplacement axes
-          if (d.categories.length == 3){
+          //modif' emplacement axes plus centrés
+          if (d.categories.length > 1){
             c.x = x;
           }
-          if (d.categories.length == 2){
-            c.x = x+15;
-          }
-          if (d.categories.length == 1){
-            c.x = (width*1/4);
+          else {
+            c.x = (width*1/2)-(c.count / total * (width - spacing))/2;
           }
           c.dx = c.count / total * (width - spacing);
-          console.log("c.dx = ");
-          console.log(c.dx);
           c.in = {dx: 0};
           c.out = {dx: 0};
           x += c.dx + p;

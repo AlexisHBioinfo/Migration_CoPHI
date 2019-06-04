@@ -22,7 +22,8 @@ but1[0].addEventListener("click", function(){
       }
     });
 
-var zooming=false;
+var zooming=true;
+document.getElementById("Zoom").className="clicked";
 
 var but2=document.getElementsByClassName("zoom");
 but2[0].addEventListener("click", function(){
@@ -101,18 +102,14 @@ d3.select("#submit").on("click", function() {
   var file = fich.files[0],
       reader = new FileReader;
   reader.onloadend = function() {
-
     var lignes=reader.result.split('\n');
     let separateur=guessDelimiters(lignes[1],[" ",",","\t",";"]);
-
     if (separateur.length>1){
-        separateur=separateur.pop();
-
+      separateur=separateur.pop();
     }
     else{
       separateur=separateur[0];
     }
-
     var del=d3.dsv(separateur,"text/plain");
     var csv=del.parse(reader.result);
     let j=-1;
@@ -126,20 +123,17 @@ d3.select("#submit").on("click", function() {
       var table = d3.select('.content').append('table')
       var thead = table.append('thead')
       var	tbody = table.append('tbody');
-
       // append the header row
       thead.append('tr')
         .selectAll('th')
         .data(columns).enter()
         .append('th')
-          .text(function (column) { return column; });
-
+        .text(function (column) { return column; });
       // create a row for each object in the data
       var rows = tbody.selectAll('tr')
         .data(data)
         .enter()
         .append('tr');
-
       // create a cell in each row for each column
       var cells = rows.selectAll('td')
         .data(function (row) {
@@ -149,7 +143,7 @@ d3.select("#submit").on("click", function() {
         })
         .enter()
         .append('td')
-          .text(function (d) { return d.value; });
+        .text(function (d) { return d.value; });
       var coll=document.getElementsByClassName("collapsible");
       for (let i=0; i<coll.length;i++){
         coll[i].addEventListener("click", function() {
@@ -170,11 +164,12 @@ d3.select("#submit").on("click", function() {
     var chart = d3.parsets()
       .dimensions([""])
       .width(750)
-      .height(75*j)
+      .height(100*j)
       .tension(0.25);
-
     var wi=chart.width();
     var he=chart.height();
+    var leftTools = d3.select(".left-tools");
+    leftTools.style("width", wi+"px");
     let coordonneeRotation = function(){
       let x,y;
       if (wi<he){
@@ -197,49 +192,52 @@ d3.select("#submit").on("click", function() {
     var xrotation=coord[0];
     var yrotation=coord[1];
     vis.datum(csv).call(chart
-        .value(csv[0].hasOwnProperty("Number") ? function(d) { return +d.Number; } : 1)
-        .dimensions(function(d) { return d3.keys(d[0]).filter(function(d) { return d !== "Number"; }); }))
-        .attr("width", wi)
-        .attr("height", he)
-        .attr('transform', 'rotate(-90, '+xrotation+', '+yrotation+')');
-        if (he<wi) {
-          vis.style("top", 150+"px");
-          var table=d3.select('.resultsTable');
-          table.style("top", 150+"px");
-        }
-        var coord_in=[];
-        let aggr=d3.selectAll("g").filter(".dimension");
-        aggr[0].forEach(element => {
-          let t=d3.transform(d3.select(element).attr("transform")).translate;
-          coord_in.push(t[1]);
+      .value(csv[0].hasOwnProperty("Number") ? function(d) { return +d.Number; } : 1)
+      .dimensions(function(d) { return d3.keys(d[0]).filter(function(d) { return d !== "Number"; }); }))
+      .attr("width", wi)
+      .attr("height", he)
+      .attr('transform', 'rotate(-90, '+xrotation+', '+yrotation+')');
+      if (he<wi) {
+        vis.style("top", 150+"px");
+        var table=d3.select('.resultsTable');
+        table.style("top", 150+"px");
+      }
+      var coord_in=[];
+      let aggr=d3.selectAll("g").filter(".dimension");
+      aggr[0].forEach(element => {
+        let t=d3.transform(d3.select(element).attr("transform")).translate;
+        coord_in.push(t[1]);
+      });
+      var zoom=d3.behavior.zoom()
+        .scaleExtent([1/4,8])
+        .on("zoom", function(){
+          if (zooming==false) return;
+          var e=d3.event;
+          if (e.scale >= 1) {
+            let tmp=(e.scale-1)/4;
+            e.scale=1+tmp;
+          }
+          if (e.scale < 1){
+            let tmp=(1-e.scale)/4;
+            e.scale=1-tmp;
+          }
+          console.log(e.scale);
+          let g=d3.select("g");
+          g.attr("transform", [`scale(${e.scale})`].join(" "));
+          let aggr=d3.selectAll("g").filter(".dimension");
+          var cont=0;
+          aggr[0].forEach(element => {
+            let t=d3.transform(d3.select(element).attr("transform")).translate;
+            t[1]=coord_in[cont]*e.scale;
+            d3.select(element).attr("transform",[`translate(${t[0]},${t[1]}) scale(${e.scale})`].join(" "));
+            cont+=1;
+          });
         });
-        var scale=1;
-       var zoom=d3.behavior.zoom()
-              .scaleExtent([-50,50])
-              .on("zoom", function(){
-                if (zooming==false) return;
-                var e=d3.event;
-
-                let g=d3.select("g");
-                g.attr("transform", [`scale(${e.scale})`].join(" "));
-                d3.select(".ribbon-mouse").attr("transform", [`scale(${e.scale})`].join(" "));
-                let aggr=d3.selectAll("g").filter(".dimension");
-                var cont=0;
-                aggr[0].forEach(element => {
-                  let t=d3.transform(d3.select(element).attr("transform")).translate;
-
-                  t[1]=coord_in[cont]*e.scale;
-                  d3.select(element).attr("transform",[`translate(${t[0]},${t[1]}) scale(${e.scale})`].join(" "));
-                  cont+=1;
-                });
-              });
-      vis.call(zoom)
+    vis.call(zoom)
       .on("mousedown.zoom", null)
       .on("touchstart.zoom", null)
       .on("touchmove.zoom", null)
       .on("touchend.zoom", null);
-      // scale=e.scale;
-
     }
   reader.readAsText(file);
 });
