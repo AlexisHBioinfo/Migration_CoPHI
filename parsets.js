@@ -138,6 +138,7 @@
                 .on("drag", function(d) {
                   if (moving==false) return;
                   d.y0 = d.y = d3.event.y;
+
                   for (var i = 1; i < dimensions.length; i++) {
                     if (height * dimensions[i].y   < height * dimensions[i - 1].y ) {
                       dimensions.sort(compareY);
@@ -491,8 +492,25 @@
         var x = 0,
             p = spacing / (d.categories.length - 1);
         d.categories.forEach(function(c) {
-          c.x = x;
+          console.log("total = " + total);
+          console.log("width = "+ width);
+          console.log("p = " + p);
+          console.log("spacing = "+ spacing);
+          console.log("c.count = ");
+          console.log(c.count);
+          //modif' emplacement axes
+          if (d.categories.length == 3){
+            c.x = x;
+          }
+          if (d.categories.length == 2){
+            c.x = x+15;
+          }
+          if (d.categories.length == 1){
+            c.x = (width*1/4);
+          }
           c.dx = c.count / total * (width - spacing);
+          console.log("c.dx = ");
+          console.log(c.dx);
           c.in = {dx: 0};
           c.out = {dx: 0};
           x += c.dx + p;

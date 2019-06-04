@@ -243,9 +243,3 @@ d3.select("#submit").on("click", function() {
     }
   reader.readAsText(file);
 });
-
-function move_svg(){
-    var parent = d3.select(this.parentNode);
-	parent.attr("x", function(){return d3.event.dx + parseInt(parent.attr("x"))})
-			.attr("y", function(){return d3.event.dy + parseInt(parent.attr("y"))});
-};
