@@ -5,54 +5,176 @@
     // parallel sets template on http://oer.uoc.edu/VIS/D3/CA/parallel-sets/index.html
 
 
-var vis = d3.select(".wrapper").append("svg");
-var select=false;
-var but1=document.getElementsByClassName("selected");
-but1[0].addEventListener("click", function(){
-      select=!select;
-      moving=false;
-      zooming=false;
-      if (select==true){
-        document.getElementById("select").className="clicked";
-        document.getElementById("Zoom").classList.remove("clicked");
-        document.getElementById("move").classList.remove("clicked");
-      }
-      else{
-        document.getElementById("select").classList.remove("clicked");
-      }
-    });
 
+var vis = d3.select(".wrapper").append("svg");
 var zooming=true;
 document.getElementById("Zoom").className="clicked";
+var scaling=false;
+var deleteAxis=false;
+var insertDimension=false;
+var moving=false;
+var filtering=false;
+var select=false;
+var butZoom=document.getElementsByClassName("zoom");
+var butScale=document.getElementsByClassName("scale");
+var butDeleteAxis=document.getElementsByClassName("delete");
+var butInsertDimension=document.getElementsByClassName("insert");
+var butMove=document.getElementsByClassName("axis");
+var butFilter=document.getElementsByClassName("filter");
+var butSelect=document.getElementsByClassName("selected");
 
-var but2=document.getElementsByClassName("zoom");
-but2[0].addEventListener("click", function(){
+butZoom[0].addEventListener("click", function(){
   zooming=!zooming;
-  select=false;
+  scaling=false;
+  deleteAxis=false;
+  insertDimension=false;
   moving=false;
+  filtering=false;
+  select=false;
   if (zooming==true){
     document.getElementById("Zoom").className="clicked";
-    document.getElementById("select").classList.remove("clicked");
+    document.getElementById("Scale").classList.remove("clicked");
+    document.getElementById("deleteAxis").classList.remove("clicked");
+    document.getElementById("insertDimension").classList.remove("clicked");
     document.getElementById("move").classList.remove("clicked");
+    document.getElementById("filter").classList.remove("clicked");
+    document.getElementById("select").classList.remove("clicked");
   }
   else{
     document.getElementById("Zoom").classList.remove("clicked");
   }
 });
 
-var moving=false;
-var but3=document.getElementsByClassName("axis");
-but3[0].addEventListener("click", function(){
-  moving=!moving;
-  select=false;
+butScale[0].addEventListener("click",function(){
+  scaling=!scaling;
   zooming=false;
-  if (moving==true){
-    document.getElementById("move").className="clicked";
+  deleteAxis=false;
+  insertDimension=false;
+  moving=false;
+  filtering=false;
+  select=false;
+  if (scaling==true){
+    document.getElementById("Scale").className="clicked";
+    document.getElementById("deleteAxis").classList.remove("clicked");
+    document.getElementById("insertDimension").classList.remove("clicked");
+    document.getElementById("move").classList.remove("clicked");
+    document.getElementById("filter").classList.remove("clicked");
+    document.getElementById("select").classList.remove("clicked");
+    document.getElementById("Zoom").classList.remove("clicked");
+  }
+  else{
+    document.getElementById("Scale").classList.remove("clicked");
+  }
+});
+
+butDeleteAxis[0].addEventListener("click",function(){
+  deleteAxis=!deleteAxis;
+  zooming=false;
+  scaling=false;
+  insertDimension=false;
+  moving=false;
+  filtering=false;
+  select=false;
+  if (deleteAxis==true){
+    document.getElementById("deleteAxis").className="clicked";
+    document.getElementById("Scale").classList.remove("clicked");
+    document.getElementById("insertDimension").classList.remove("clicked");
+    document.getElementById("move").classList.remove("clicked");
+    document.getElementById("filter").classList.remove("clicked");
     document.getElementById("Zoom").classList.remove("clicked");
     document.getElementById("select").classList.remove("clicked");
   }
   else{
+    document.getElementById("deleteAxis").classList.remove("clicked");
+  }
+});
+
+butInsertDimension[0].addEventListener("click",function(){
+  insertDimension=!insertDimension;
+  zooming=false;
+  scaling=false;
+  deleteAxis=false;
+  moving=false;
+  filtering=false;
+  select=false;
+  if (insertDimension==true){
+    document.getElementById("insertDimension").className="clicked";
+    document.getElementById("Scale").classList.remove("clicked");
+    document.getElementById("deleteAxis").classList.remove("clicked");
     document.getElementById("move").classList.remove("clicked");
+    document.getElementById("filter").classList.remove("clicked");
+    document.getElementById("select").classList.remove("clicked");
+    document.getElementById("Zoom").classList.remove("clicked");
+  }
+  else{
+    document.getElementById("insertDimension").classList.remove("clicked");
+  }
+});
+
+butMove[0].addEventListener("click",function(){
+  moving=!moving;
+  zooming=false;
+  scaling=false;
+  deleteAxis=false;
+  insertDimension=false;
+  filtering=false;
+  select=false;
+  if (moving==true){
+    document.getElementById("move").className="clicked";
+    document.getElementById("Scale").classList.remove("clicked");
+    document.getElementById("deleteAxis").classList.remove("clicked");
+    document.getElementById("insertDimension").classList.remove("clicked");
+    document.getElementById("filter").classList.remove("clicked");
+    document.getElementById("select").classList.remove("clicked");
+    document.getElementById("Zoom").classList.remove("clicked");
+  }
+  else{
+    document.getElementById("move").classList.remove("clicked");
+  }
+});
+
+butSelect[0].addEventListener("click", function(){
+  zooming=false;
+  scaling=false;
+  deleteAxis=false;
+  insertDimension=false;
+  moving=false;
+  filtering=false;
+  select=!select;
+  if (select==true){
+    document.getElementById("select").className="clicked";
+    document.getElementById("Scale").classList.remove("clicked");
+    document.getElementById("deleteAxis").classList.remove("clicked");
+    document.getElementById("insertDimension").classList.remove("clicked");
+    document.getElementById("move").classList.remove("clicked");
+    document.getElementById("filter").classList.remove("clicked");
+    document.getElementById("Zoom").classList.remove("clicked");
+  }
+  else{
+    document.getElementById("select").classList.remove("clicked");
+  }
+});
+
+
+butFilter[0].addEventListener("click", function(){
+  filtering=!filtering;
+  select=false;
+  zooming=false;
+  scaling=false;
+  deleteAxis=false;
+  insertDimension=false;
+  moving=false;
+  if (filtering==true){
+    document.getElementById("filter").className="clicked";
+    document.getElementById("Scale").classList.remove("clicked");
+    document.getElementById("deleteAxis").classList.remove("clicked");
+    document.getElementById("insertDimension").classList.remove("clicked");
+    document.getElementById("Zoom").classList.remove("clicked");
+    document.getElementById("move").classList.remove("clicked");
+    document.getElementById("select").classList.remove("clicked");
+  }
+  else{
+    document.getElementById("filter").classList.remove("clicked");
   }
 });
 
@@ -221,7 +343,6 @@ d3.select("#submit").on("click", function() {
             let tmp=(1-e.scale)/4;
             e.scale=1-tmp;
           }
-          console.log(e.scale);
           let g=d3.select("g");
           g.attr("transform", [`scale(${e.scale})`].join(" "));
           let aggr=d3.selectAll("g").filter(".dimension");

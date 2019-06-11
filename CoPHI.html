@@ -10,25 +10,52 @@
 <body>
   <div class="sidenav">
     <h1 class="cophi">CoPHI</h1>
+    <div id="Import">Import
+    </div>
     <div>
       <input class="input-file" id="file" type="file">
       <label for="file" class="input-file-trigger" tabindex="0">Select a file</label>
     </div>
     <button id="submit" type="submit">Submit</button>
+    <div id="Rendering">Rendering
+      <div id="colorSheme">
+        <ul>Color Sheme
+          <li>Green black red</li>
+          <li>Green Blue</li>
+          <li>Legacy</li>
+          <li>Baby room</li>
+          <li>Palampa</li>
+        </ul>
+      </div>
+    </div>
+    <div id="DataTable">Data Table
+    </div>
     <div>
       <input id="User_guide" type="button" value="User Guide" onclick="self.location.href='./User_guide/index.html'">
     </div>
   </div>
   <nav id="toolBar">
     <ul class="left-tools">
-        <li id="select" data-tooltip="Exploration (Space)">
-          <a class="selected" data-content="pan"><img title="Select and highlight" src="./icone_selectest.png"><!-- Select and highlight --></a>
-        </li>
         <li id="Zoom" data-tooltip="Zoom (Z)">
-            <a class="zoom" data-content="delete"><img title="Zoom" src="./icone_zoom_test.png"><!-- Zoom--></a>
+          <a class="zoom" data-content="delete"><img title="Exploration" src="./icone_zoom_test.png"><!-- Zoom--></a>
+        </li>
+        <li id="Scale" data-tooltip="Scale (S)">
+          <a class="scale" data-content="scale"><img title="Scale" src="./icone_scale.png"></a>
+        </li>
+        <li id="deleteAxis" data-tooltip="Delete (T)">
+          <a class="delete" data-content="delete"><img title="Delete" src="./icone_deleteAxis.png"></a>
+        </li>
+        <li id="insertDimension" data-tooltip="Insert (W)">
+          <a class="insert" data-content="insert"><img title="Insert" src="./icone_insertDimension.png"></a>
         </li>
         <li id="move" data-tooltip="Move axis (M)">
-          <a class="axis" data-content="move"><img title="Displace axes" src="./icone_movetest.png"><!-- Displace axes--></a>
+          <a class="axis" data-content="move"><img title="Move Axis" src="./icone_movetest.png"><!-- Displace axes--></a>
+        </li>
+        <li id="filter" data-tooltip="Filter (Y)">
+          <a class="filter" data-content="filter"><img title="Filter" src="./icone_filtre.png"></a>
+        </li>
+        <li id="select" data-tooltip="Exploration (Space)">
+          <a class="selected" data-content="pan"><img title="Select and highlight" src="./icone_selectest.png"><!-- Select and highlight --></a>
         </li>
     </ul>
   </nav>

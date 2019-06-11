@@ -59,7 +59,9 @@
         function updateDimensions() { // Add dimensions based on input file
           var dimension = g.selectAll("g.dimension"), // Cache existing bound dimensions to preserve sort order.
               cache = {};
-          dimension.each(function(d) { cache[d.name] = d; });
+          dimension.each(function(d) {
+            cache[d.name] = d;
+          });
           dimensionNames.forEach(function(d) {
             if (!cache.hasOwnProperty(d)) {
               cache[d] = {name: d, categories: []};
@@ -181,6 +183,19 @@
               .attr("transform", function(d) { return "translate(0," + d.y + ")"; })
               .tween("ribbon", ribbonTweenY);
           dimension.exit().remove();
+          dimensions.forEach(function(i){
+            var tmp_dim = {};
+            var order = [];
+            var tmp_dim2 = [];
+            i.categories.forEach(function(j){
+              tmp_dim[j.name]=j;
+              order.push(j.name);
+            });
+            order.sort();
+            for (let k in order){
+              tmp_dim2.push(tmp_dim[k]);
+            }
+          });
 
           updateCategories(dimension);
           updateRibbons();

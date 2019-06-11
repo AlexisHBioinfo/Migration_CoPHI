@@ -17,6 +17,55 @@
   text-align: center;
 }
 
+#Import, #Rendering,  #DataTable{
+  position: relative;
+  text-align: left;
+  padding-left: 10px;
+  font-size: 20px;
+  color: #8f8f8f;
+  top: 60px;
+};
+
+#Rendering {
+  top: 0px;
+}
+
+#colorSheme {
+  text-align: center;
+  width: 100%;
+}
+
+#colorSheme ul {
+  position: relative;
+  margin-top: 20px;
+  font-family:Arial;
+  font-size:20px;
+  padding:15px;
+  font-weight: 250;
+  cursor:pointer;
+  min-width: 165px;
+  text-align: center;
+}
+
+#colorSheme li {
+  font-size: 15px;
+  display: none;
+}
+
+#colorSheme:hover li{
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  background-color: #df7c7c;
+  width: 75%;
+  display: block;
+}
+
+#colorSheme li:hover{
+  background-color: #a6d8a7;
+}
+
 .wrapper{
   width: 100%;
   height: 100%;
@@ -121,6 +170,11 @@
 .left-tools{
   display: flex;
 }
+
+.left-tools img {
+  width: 50px;
+}
+
 .right-tools{
   float: right;
 }
@@ -131,6 +185,7 @@ li{
   visibility: visible;
   cursor: pointer;
   padding: 20px;
+  padding-top: 4px;
 }
 a {
   color: #03262d;
