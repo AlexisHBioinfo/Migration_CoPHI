@@ -1,7 +1,7 @@
 .cophi{
   font-family:Arial;
   font-size:50pt;
-  color: #6d966e;
+  color: #ffffff;
 }
 
 .sidenav{
@@ -11,7 +11,7 @@
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #fedfb3;
+  background-color: #232b2d;
   overflow-x: visible; /* Disable horizontal scroll */
   padding-top: 20px;
   text-align: center;
@@ -33,6 +33,7 @@
 #colorSheme {
   text-align: center;
   width: 100%;
+  color: #16a085;
 }
 
 #colorSheme ul {
@@ -47,23 +48,37 @@
   text-align: center;
 }
 
+#colorSheme ul:hover {
+  color: #bbbbbb;
+}
+
 #colorSheme li {
+  color: #ffd1a3;
   font-size: 15px;
   display: none;
 }
 
 #colorSheme:hover li{
+  color: #bbbbbb;
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  background-color: #df7c7c;
+  background-color: #16a085;
+  border: 2px solid currentColor;
   width: 75%;
   display: block;
 }
 
 #colorSheme li:hover{
-  background-color: #a6d8a7;
+  background-color: #232b2d;
+  color: #bbbbbb;
+}
+
+#colorSheme li:not(:hover) {
+  color: #232b2d;
+  border: 2px solid currentColor;
+
 }
 
 .wrapper{
@@ -100,7 +115,7 @@
   margin-top: 100px;
   font-family:Arial;
   font-size:23px;
-  color:#df7c7c;
+  color:#1abc9c;
   border: 2px solid currentColor;
   padding: 15px;
   font-weight: 700;
@@ -112,22 +127,25 @@
 .input-file:focus + label,
 .input-file.has-focus + label,
 .input-file + label:hover {
-  background-color: #ffd1a3;
+  background-color: #16a085;
 }
 
 #submit{
-  /* text-align: center; */
+  background-color: #232b2d;
   position: relative;
   margin-top: 200px;
   font-family:Arial;
   font-size:23px;
-  color: #ffd1a3;
-  background-color:#df7c7c;
+  color:#1abc9c;
   border: 2px solid currentColor;
   padding:15px;
   font-weight: 700;
   cursor:pointer;
   min-width: 165px;
+}
+
+#submit:hover{
+  background-color:#16a085;
 }
 
 #submit:active{
@@ -140,8 +158,8 @@
   margin-top: 200px;
   font-family:Arial;
   font-size:17px;
-  color: #6d966e;
-  background-color:#fedfb3;
+  color: #232b2d;
+  background-color:#1abc9c;
   border: 2px solid currentColor;
   padding:15px;
   font-weight: 700;
@@ -160,7 +178,7 @@
   transition: box-shadow 0.25s;
   left: 330px;
   right: 0;
-  background-color: #a6d8a7;
+  background-color: #16a085;
   padding: 8px;
   font-family:Arial;
   font-size:12pt;
@@ -173,6 +191,10 @@
 
 .left-tools img {
   width: 50px;
+}
+
+.left-tools img:hover{
+
 }
 
 .right-tools{
@@ -225,7 +247,7 @@ a {
   position :absolute;
   overflow-x: visible;
   /* margin-left: 330px; */
-  background-color: #a6d8a7;
+  background-color: #16a085;
   box-sizing: content-box;
   top: auto;
   font-family:Arial;
@@ -233,7 +255,7 @@ a {
 }
 
 .active, .collapsible:hover {
-  background-color:#5fab60;
+  background-color:#1abc9c;
 }
 
 .content {
