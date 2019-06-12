@@ -365,9 +365,9 @@ pre, code { font-family: "Menlo", monospace; }
 .dimension:hover tspan.sort { opacity: 1; }
 .dimension line { stroke: #000; }
 .dimension rect { stroke: none; fill-opacity: 0; }
-.dimension > rect, .category-background { fill: #fff; }
+.dimension > rect, .category-background { fill: #333; }
 .dimension > rect { display: none; }
-.category:hover rect { fill-opacity: .3; }
+.category rect { fill-opacity: 1; }
 .dimension:hover > rect { fill-opacity: .3; }
 .ribbon path { stroke-opacity: .3; fill-opacity: .5; }
 .ribbon path.active { fill-opacity: 1; }
@@ -376,6 +376,8 @@ pre, code { font-family: "Menlo", monospace; }
 .category-0 { fill: #6fae14; }
 .category-1 { fill: #1ba212; }
 .category-2 { fill: #149675; }
+
+.ribbonNew {fill:#333;}
 
 .tooltip {
   background-color: rgba(242, 242, 242, .6);

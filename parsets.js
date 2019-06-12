@@ -35,7 +35,6 @@
             ribbon;
 
         d3.select(window).on("click.parsets." + ++parsetsId, unhighlight);
-
         if (tension0 == null) tension0 = tension;
         g.selectAll(".ribbon, .ribbon-mouse")
             .data(["ribbon", "ribbon-mouse"], String)
@@ -102,12 +101,14 @@
             }
           })(tree, 0);
           ordinal.domain([]).range(d3.range(dimensions[0].categories.length));
+          sortOrder();
           nodes = layout(tree, dimensions, ordinal);
           total = getTotal(dimensions);
           dimensions.forEach(function(d) {
             d.count = total;
           });
           dimension = dimension.data(dimensions, dimensionName);
+
           // Add dimensions to SVG element as well as their events
           var dEnter = dimension.enter().append("g")
               .attr("class", "dimension")
@@ -183,6 +184,11 @@
               .attr("transform", function(d) { return "translate(0," + d.y + ")"; })
               .tween("ribbon", ribbonTweenY);
           dimension.exit().remove();
+          // sortOrder();
+          updateCategories(dimension);
+          updateRibbons();
+        }
+        function sortOrder(){
           dimensions.forEach(function(i){
             var tmp_dim = {};
             var order = [];
@@ -192,13 +198,11 @@
               order.push(j.name);
             });
             order.sort();
-            for (let k in order){
-              tmp_dim2.push(tmp_dim[k]);
+            for (let k=0; k<order.length;k++){
+              tmp_dim2.push(tmp_dim[order[k]]);
             }
+            i.categories=tmp_dim2;
           });
-
-          updateCategories(dimension);
-          updateRibbons();
         }
 
         function sortBy(type, f, dimension) {
@@ -224,6 +228,7 @@
                 d.source.x0 = d.source.x;
                 d.target.x0 = d.target.x;
               })
+              .attr("class","ribbonNew")
               .attr("class", function(d) { return "category-" + d.name; })
               .attr("d", ribbonPath);
           ribbon.sort(function(a, b) { return parseInt(a.name) > parseInt(b.name); });
@@ -354,7 +359,6 @@
         function updateCategories(g) { // Updates dimensions' categories and adds the corresponding events
           var category = g.selectAll("g.category")
               .data(function(d) { return d.categories; }, function(d) { return d.name; });
-
           var categoryEnter = category.enter().append("g")
               .attr("class", "category")
               .attr("transform", function(d) { return "translate(" + d.x + ")"; });
@@ -364,22 +368,22 @@
               .tween("ribbon", ribbonTweenX);
           categoryEnter.append("rect")
               .attr("width", function(d) { return d.dx; })
-              .attr("y", -10)
-              .attr("height", 10);
-          categoryEnter.append("line")
-              .style("stroke-width", 2);
+              .attr("y", -15)
+              .attr("height", 15);
+          // categoryEnter.append("line")
+          //     .style("stroke-width", 50);
           categoryEnter.append("text")
               .attr("dy", "-.3em");
           category.select("rect")
               .attr("width", function(d) { return d.dx; })
               .attr("class", function(d) {
-                return "category-" + (d.dimension === dimensions[0] ? ordinal(d.name) : "background");
+                return "category-" + d.name;
               });
-          category.select("line")
-              .attr("x2", function(d) { return d.dx; });
-          category.select("text")
-              .attr("transform","rotate(90,5,-10)")
-              .text(function(d) { return d.name; });
+          // category.select("line")
+          //     .attr("x2", function(d) { return d.dx; });
+          // category.select("text")
+          //     .attr("transform","rotate(90,5,-10)")
+          //     .text(function(d) { return d.name; });
         }
       });
     }
@@ -601,9 +605,6 @@
             total=list_nod.filter(function(n){return n.name==c[1];}).reduce(function(prev,cur){
               return prev+cur.count;
             });
-
-
-
             new_array.push(new_nod);
             });
 
