@@ -4,8 +4,7 @@
 // Based on:
     // parallel sets template on http://oer.uoc.edu/VIS/D3/CA/parallel-sets/index.html
 
-
-
+var upload = false;
 var vis = d3.select(".wrapper").append("svg");
 var zooming=true;
 document.getElementById("Zoom").className="clicked";
@@ -219,6 +218,39 @@ var navbar = document.getElementById("toolBar");
 var sticky = navbar.offsetTop;
 navbar.setAttribute("width","100");
 
+var color = "GRN";
+console.log(vis);
+d3.select("#GB").on("click", function() {
+  color ="GB";
+  if (upload==true) {
+    vis.svg.updateDimensions();
+  }
+});
+d3.select("#GRN").on("click", function() {
+  color ="GRN";
+  if (upload==true) {
+    vis.svg.updateDimensions();
+  }
+});
+d3.select("#L").on("click", function() {
+  color ="L";
+  if (upload==true) {
+    vis.svg.updateDimensions();
+  }
+});
+d3.select("#BR").on("click", function() {
+  color ="BR";
+  if (upload==true) {
+    vis.svg.updateDimensions();
+  }
+});
+d3.select("#P").on("click", function() {
+  color ="P";
+  if (upload==true) {
+    vis.svg.updateDimensions();
+  }
+});
+
 d3.select("#submit").on("click", function() {
   let fich=document.getElementById("file");
   var file = fich.files[0],
@@ -286,8 +318,9 @@ d3.select("#submit").on("click", function() {
     var chart = d3.parsets()
       .dimensions([""])
       .width(750)
-      .height(100*j)
+      .height(50*j)
       .tension(0.25);
+    upload=true;
     var wi=chart.width();
     var he=chart.height();
     var leftTools = d3.select(".left-tools");
@@ -354,6 +387,7 @@ d3.select("#submit").on("click", function() {
             cont+=1;
           });
         });
+
     vis.call(zoom)
       .on("mousedown.zoom", null)
       .on("touchstart.zoom", null)

@@ -124,7 +124,7 @@
               .attr("height", 45);
           var textEnter = dEnter.append("text")
               .attr("class", "dimension")
-              .attr("transform", "translate(0,15)");
+              .attr("transform", "translate(0,-15)");
           textEnter.append("tspan")
               .attr("class", "name")
               .text(dimensionFormatName);
@@ -229,7 +229,7 @@
                 d.target.x0 = d.target.x;
               })
               .attr("class","ribbonNew")
-              .attr("class", function(d) { return "category-" + d.name; })
+              // .attr("class", function(d) { return "category-" + d.name; })
               .attr("d", ribbonPath);
           ribbon.sort(function(a, b) { return parseInt(a.name) > parseInt(b.name); });
           ribbon.exit().remove();
@@ -377,8 +377,12 @@
           category.select("rect")
               .attr("width", function(d) { return d.dx; })
               .attr("class", function(d) {
-                return "category-" + d.name;
-              });
+                if (color=="GB") { return "category-GB-" + d.name; }
+                if (color=="GRN") { return "category-GRN-" + d.name; }
+                if (color=="L") { return "category-L-" + d.name; }
+                if (color=="BR") { return "category-BR-" + d.name; }
+                if (color=="P") { return "category-P-" + d.name; }
+                });
           // category.select("line")
           //     .attr("x2", function(d) { return d.dx; });
           // category.select("text")
@@ -663,14 +667,14 @@
     function ribbonPath(d) {
       var s = d.source,
           t = d.target;
-      return ribbonPathString(s.node.x + s.x, s.dimension.y, s.dx, t.node.x + t.x, t.dimension.y, t.dx, tension);
+      return ribbonPathString((s.node.x + s.x)+s.dx/4, s.dimension.y, s.dx/2, t.node.x + t.x+t.dx/4, t.dimension.y, t.dx/2, tension);
     }
 
     // Static path string for mouse handlers.
     function ribbonPathStatic(d) {
       var s = d.source,
           t = d.target;
-      return ribbonPathString(s.node.x + s.x, s.dimension.y, s.dx, t.node.x + t.x, t.dimension.y, t.dx, tension);
+      return ribbonPathString(s.node.x + s.x, s.dimension.y, s.dx/2, t.node.x + t.x, t.dimension.y, t.dx/2, tension);
     }
 
     function ribbonPathString(sx, sy, sdx, tx, ty, tdx, tension) {

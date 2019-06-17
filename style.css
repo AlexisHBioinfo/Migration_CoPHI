@@ -193,9 +193,6 @@
   width: 50px;
 }
 
-.left-tools img:hover{
-
-}
 
 .right-tools{
   float: right;
@@ -288,8 +285,8 @@ h1, h2, .dimension text {
 
 
 .dimension text:hover {
-  transform: translate(0, 40px);
-  font-size: 150%;
+  transform: translate(0, -20px);
+  font-size: 75%;
 }
 
 .category text {
@@ -373,11 +370,27 @@ pre, code { font-family: "Menlo", monospace; }
 .ribbon path.active { fill-opacity: 1; }
 .ribbon-mouse path { fill-opacity: 0; }
 
-.category-0 { fill: #6fae14; }
-.category-1 { fill: #1ba212; }
-.category-2 { fill: #149675; }
+.category-GB-0 { fill: #6fae14; }
+.category-GB-1 { fill: #1ba212; }
+.category-GB-2 { fill: #149675; }
 
-.ribbonNew {fill:#333;}
+.category-GRN-0 { fill:#306230;}
+.category-GRN-1 { fill:#000;}
+.category-GRN-2 { fill:#a10202;}
+
+.category-L-0 { fill:#325c7e;}
+.category-L-1 { fill:#c8c8a0;}
+.category-L-2 { fill:#a15856;}
+
+.category-BR-0 { fill:#b7c5c7;}
+.category-BR-1 { fill:#c8c8a0;}
+.category-BR-2 { fill:#cebba9;}
+
+.category-P-0 { fill:#6e86ba;}
+.category-P-1 { fill:#b6bd38;}
+.category-P-2 { fill:#a34d25;}
+
+.ribbonNew {fill:#999999;}
 
 .tooltip {
   background-color: rgba(242, 242, 242, .6);
