@@ -218,7 +218,7 @@ var navbar = document.getElementById("toolBar");
 var sticky = navbar.offsetTop;
 navbar.setAttribute("width","100");
 
-var color = "GRN";
+var color = "GB";
 console.log(vis);
 d3.select("#GB").on("click", function() {
   color ="GB";
