@@ -20,11 +20,15 @@ h2{
   margin-right: auto;
 }
 
-#table, #scroll_up, #scroll_down {
+#table, #scroll_up{
   width: 20%;
 }
 
-.click_interact {
+#scroll_down {
+  width: 15%;
+}
+
+.click_interact, #click_color:hover {
   width: 30%;
 }
 
@@ -40,11 +44,15 @@ h2{
   width: 25%;
 }
 
-#table:hover, #directory:hover, #scroll_up:hover, #scroll_down:hover{
+#table:hover, #directory:hover {
   width: 50%
 }
 
-#Submit:hover, #Parcourir:hover, .displace:hover, #select:hover{
+#scroll_up:hover, #scroll_down:hover{
+  width: 35%;
+}
+
+#Submit:hover, #Parcourir:hover, .displace:hover, #select:hover, .color_Scheme:hover{
   width: 20%;
 }
 
@@ -52,7 +60,7 @@ h2{
   text-align: center;
 }
 
-.scroll, .displace {
+.scroll, .displace, .color_Scheme {
   display: inline-block;
   margin: 0%;
 
@@ -66,10 +74,18 @@ h2{
   padding-left: 60px;
 }
 
-#displace_1 {
+#displace_1, #colorGB {
   padding-right: 60px;
 }
 
-#displace_2 {
+#displace_2, #colorGRN {
   padding-left: 60px;
+}
+
+#click_color {
+  width: 15%;
+}
+
+.color_Scheme {
+  height: 13%;
 }
