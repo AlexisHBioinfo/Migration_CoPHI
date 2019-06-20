@@ -30,13 +30,13 @@
   top: 0px;
 }
 
-#colorSheme {
+#colorScheme {
   text-align: center;
   width: 100%;
   color: #16a085;
 }
 
-#colorSheme ul {
+#colorScheme ul {
   position: relative;
   margin-top: 20px;
   font-family:Arial;
@@ -48,17 +48,17 @@
   text-align: center;
 }
 
-#colorSheme ul:hover {
+#colorScheme ul:hover {
   color: #bbbbbb;
 }
 
-#colorSheme li {
+#colorScheme li {
   color: #ffd1a3;
   font-size: 15px;
   display: none;
 }
 
-#colorSheme:hover li{
+#colorScheme:hover li{
   color: #bbbbbb;
   margin-top: 10px;
   margin-left: auto;
@@ -70,12 +70,12 @@
   display: block;
 }
 
-#colorSheme li:hover{
+#colorScheme li:hover{
   background-color: #232b2d;
   color: #bbbbbb;
 }
 
-#colorSheme li:not(:hover) {
+#colorScheme li:not(:hover) {
   color: #232b2d;
   border: 2px solid currentColor;
 
