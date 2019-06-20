@@ -674,7 +674,7 @@
     function ribbonPathStatic(d) {
       var s = d.source,
           t = d.target;
-      return ribbonPathString(s.node.x + s.x, s.dimension.y, s.dx/2, t.node.x + t.x, t.dimension.y, t.dx/2, tension);
+      return ribbonPathString((s.node.x + s.x)+s.dx/4, s.dimension.y, s.dx/2, t.node.x + t.x+t.dx/4, t.dimension.y, t.dx/2, tension);
     }
 
     function ribbonPathString(sx, sy, sdx, tx, ty, tdx, tension) {
